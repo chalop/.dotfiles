@@ -1,0 +1,95 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+  {
+    "command": "workbench.action.toggleMaximizedPanel",
+    "key": "ctrl+alt+`"
+  },
+  {
+    "command": "notebook.centerActiveCell",
+    "key": "ctrl+alt+l",
+    "when": "notebookEditorFocused"
+  },
+  {
+    "command": "-notebook.centerActiveCell",
+    "key": "ctrl+l",
+    "when": "notebookEditorFocused"
+  },
+  {
+    "command": "extension.generateConsoleLog",
+    "key": "ctrl+l",
+    "when": "editorTextFocus"
+  },
+  {
+    "command": "-extension.generateConsoleLog",
+    "key": "ctrl+shift+q",
+    "when": "editorTextFocus"
+  },
+  {
+    "command": "-workbench.action.quickOpenView",
+    "key": "ctrl+q"
+  },
+  {
+    "command": "-workbench.action.quickOpenNavigateNextInViewPicker",
+    "key": "ctrl+q",
+    "when": "inQuickOpen && inViewsPicker"
+  },
+  {
+    "command": "workbench.action.terminal.kill",
+    "key": "ctrl+q"
+  },
+  {
+    "command": "-workbench.action.terminal.new",
+    "key": "ctrl+shift+`"
+  },
+  {
+    "command": "-workbench.action.terminal.split",
+    "key": "cmd+\\",
+    "when": "terminalFocus && terminalProcessSupported"
+  },
+  {
+    "command": "-workbench.action.splitEditor",
+    "key": "cmd+\\"
+  },
+  {
+    "args": {
+      "cwd": "${fileDirname}"
+    },
+    "command": "workbench.action.terminal.newWithCwd",
+    "key": "cmd+shift+\\"
+  },
+  {
+    "args": {
+      "cwd": "${fileDirname}"
+    },
+    "command": "workbench.action.terminal.split",
+    "key": "cmd+\\",
+    "when": "terminalFocus && terminalProcessSupported"
+  },
+  {
+    "command": "-workbench.action.terminal.split",
+    "key": "ctrl+shift+5",
+    "when": "terminalFocus && terminalProcessSupported"
+  },
+  {
+    "command": "toggleVim",
+    "key": "ctrl+shift+p"
+  },
+  {
+    "command": "workbench.action.terminal.newInActiveWorkspace",
+    "key": "ctrl+shift+`",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "cmd+k",
+    "command": "workbench.action.terminal.clear",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "alt+cmd+o",
+    "command": "projectManager.listProjectsNewWindow"
+  },
+  {
+    "key": "ctrl+cmd+e",
+    "command": "excalidraw.showEditorToSide"
+  }
+]
