@@ -45,7 +45,7 @@ alias rc="vim ~/.zshrc"
 alias soce="source ~/.zshrc"
 alias yt-mp4='yt-dlp -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"'
 alias h-search="history | grep"
-# alias clear="echo -n -e \"\e[2J\e[3J\e[1;1H\""
+alias clear="echo -n -e \"\e[2J\e[3J\e[1;1H\""
 alias e="exit"
 
 src() {

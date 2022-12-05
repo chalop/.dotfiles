@@ -24,22 +24,20 @@ vim.opt.wrap = false
 vim.opt.termguicolors = true
 -- declares which chars should allow to go to next line
 -- lvim defaults: "<,>,[,],h,l"
--- vim.opt.whichwrap = ""
+vim.opt.whichwrap = ""
 
 -- LunarVim Setup
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = false
 lvim.colorscheme = "dracula"
-
 lvim.leader = "space"
+
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 
 lvim.builtin.terminal.active = true
 
-lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
-lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
+lvim.builtin.lir.show_hidden_files = true
 
 lvim.builtin.lualine.style = "default"
 
@@ -119,6 +117,11 @@ lvim.builtin.telescope.pickers.find_files = {
 lvim.builtin.telescope.pickers.live_grep = {
     layout_strategy = "horizontal"
 }
+
+-- NvimTree
+lvim.builtin.nvimtree.setup.view.side = "right"
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
+lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
 
 -- Formatting
 local formatters = require "lvim.lsp.null-ls.formatters"
