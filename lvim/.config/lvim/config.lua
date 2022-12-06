@@ -26,11 +26,28 @@ vim.opt.termguicolors = true
 -- lvim defaults: "<,>,[,],h,l"
 vim.opt.whichwrap = ""
 
+-- local augroup = vim.api.nvim_create_augroup
+-- ChalopGroup = augroup("chalop", {})
+
+-- local yank_group = augroup('HighlightYank', {})
+-- local autocmd = vim.api.nvim_create_autocmd
+-- autocmd("TextYankPost", {
+--     group = yank_group,
+--     patter = "*",
+--     callback = function ()
+--         vim.highlight.on_yank({
+--             higroup = 'IncSearch',
+--             timeout = 1000
+--         })
+--     end
+-- })
+
 -- LunarVim Setup
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = false
 lvim.colorscheme = "dracula"
 lvim.leader = "space"
+lvim.transparent_window = true
 
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
@@ -47,9 +64,9 @@ lvim.lsp.buffer_mappings.normal_mode ={
     ["gh"] = {"<CMD>Lspsaga hover_doc<CR>", "Hover doc"},
     ["gd"] = { "<CMD>Lspsaga lsp_finder<CR>", "Goto Definition" },
     ["gD"] = { vim.lsp.buf.declaration, "Goto declaration" },
-    -- ["gr"] = { "<CMD>Lspsaga rename<CR>", "Rename" },
     ["gr"] = { vim.lsp.buf.references, "References" },
-    ["gR"] = { vim.lsp.buf.rename, "Rename" },
+    -- ["gR"] = { vim.lsp.buf.rename, "Rename" },
+    ["gR"] = { "<CMD>Lspsaga rename<CR>", "Rename" },
     ["gI"] = { vim.lsp.buf.implementation, "Goto Implementation" },
     ["gs"] = { vim.lsp.buf.signature_help, "show signature help" },
     ["gl"] = {
