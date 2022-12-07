@@ -63,6 +63,7 @@ lvim.lsp.buffer_mappings.normal_mode ={
     -- ["K"] = { vim.lsp.buf.hover, "Show hover" },
     ["gh"] = {"<CMD>Lspsaga hover_doc<CR>", "Hover doc"},
     ["gd"] = { "<CMD>Lspsaga lsp_finder<CR>", "Goto Definition" },
+    -- ["gd"] = { vim.lsp.buf.definition },
     ["gD"] = { vim.lsp.buf.declaration, "Goto declaration" },
     ["gr"] = { vim.lsp.buf.references, "References" },
     -- ["gR"] = { vim.lsp.buf.rename, "Rename" },
