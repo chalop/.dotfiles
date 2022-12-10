@@ -120,7 +120,7 @@ font:
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
     # family: monospace
-    family: MonoLisa Custom
+    family: MonoLisa Nerd Font Mono #MonoLisa Custom
 
     # The `style` can be specified to pick a specific face.
     style: Regular

@@ -130,7 +130,9 @@ lvim.builtin.treesitter.highlight.enable = true
 -- Telescope
 lvim.builtin.telescope.pickers.find_files = {
     layout_strategy = "horizontal",
-    layout_config = { width = 0.80, height = 0.80, prompt_position = "bottom" }
+    layout_config = { width = 0.80, height = 0.80, prompt_position = "bottom" },
+    hidden = true,
+    -- file_ignore_patterns = "^.git/"
 }
 lvim.builtin.telescope.pickers.live_grep = {
     layout_strategy = "horizontal"
