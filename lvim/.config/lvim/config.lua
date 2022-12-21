@@ -3,7 +3,17 @@ lvim.plugins = {
     {"folke/trouble.nvim", cmd="TroubleToggle"},
     {"glepnir/lspsaga.nvim"},
     "Mofiqul/dracula.nvim",
-    {"mbbill/undotree"}
+    {"mbbill/undotree"},
+    {'wuelnerdotexe/vim-enfocado'},
+    {'nyoom-engineering/oxocarbon.nvim'},
+    {'sigmasd/deno-nvim'},
+    {
+        "lervag/vimtex",
+        config = function()
+            vim.cmd("call vimtex#init()")
+        end,
+    },
+    {"ggandor/leap.nvim"}
 }
 
 -- Vim Setup
@@ -12,6 +22,7 @@ vim.opt.colorcolumn = "80,120"
 vim.opt.expandtab = true
 vim.opt.guicursor = "n-c-sm:"..blink..",i-ci-ve:ver25-"..blink..",r-cr-o:hor20,v:block"
 vim.opt.hlsearch = false
+vim.opt.incsearch = true
 vim.opt.nu = true
 vim.opt.relativenumber = true
 vim.opt.shiftwidth = 4
@@ -19,6 +30,7 @@ vim.opt.showcmd = true
 vim.opt.smartindent = true
 vim.opt.softtabstop = 4
 vim.opt.tabstop = 4
+vim.opt.scrolloff = 8
 vim.opt.updatetime = 50
 vim.opt.wrap = false
 vim.opt.termguicolors = true
@@ -45,7 +57,9 @@ vim.opt.whichwrap = ""
 -- LunarVim Setup
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = false
-lvim.colorscheme = "dracula"
+vim.opt.background = "dark" -- set this to dark or light
+lvim.colorscheme = "oxocarbon"
+-- lvim.colorscheme = "enfocado"
 lvim.leader = "space"
 lvim.transparent_window = true
 
@@ -79,6 +93,10 @@ lvim.lsp.buffer_mappings.normal_mode ={
         "Show line diagnostics",
     },
 }
+
+-- Leap
+require('leap').add_default_mappings()
+-- require('leap').leap { target_windows = { vim.fn.win_getid() } }
 
 -- Bufferline
 local function is_ft(b, ft)
@@ -146,12 +164,25 @@ lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
 -- Formatting
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  {
-    command = "prettier",
-    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-  },
+    {
+        command = "prettier",
+        ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+        filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+    },
 }
+
+-- Keymaps
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
+
+
+lvim.keys.normal_mode["<leader>x"] = "<cmd>!chmod +x %<CR>"
+
 -- add your own keymapping
 -- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
