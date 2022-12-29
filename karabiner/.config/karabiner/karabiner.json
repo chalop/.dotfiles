@@ -1,0 +1,35 @@
+{
+    "profiles": [
+        {
+            "complex_modifications": {
+                "title": "Shift-Delete to Delete-Forward",
+                "rules": [
+                    {
+                        "description": "Shift-Delete to Delete-Forward (deletes next character)",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "shift"
+                                        ],
+                                        "optional": [
+                                            "caps_lock"
+                                        ]
+                                    },
+                                    "key_code": "delete_or_backspace"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "delete_forward"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
