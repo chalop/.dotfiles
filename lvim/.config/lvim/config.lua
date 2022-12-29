@@ -1,26 +1,43 @@
 -- Packer
 lvim.plugins = {
-    {"folke/trouble.nvim", cmd="TroubleToggle"},
-    {"glepnir/lspsaga.nvim"},
+    { "folke/trouble.nvim", cmd = "TroubleToggle" },
+    { "glepnir/lspsaga.nvim" },
     "Mofiqul/dracula.nvim",
-    {"mbbill/undotree"},
-    {'wuelnerdotexe/vim-enfocado'},
-    {'nyoom-engineering/oxocarbon.nvim'},
-    {'sigmasd/deno-nvim'},
+    { "mbbill/undotree" },
+    { 'wuelnerdotexe/vim-enfocado' },
+    { 'nyoom-engineering/oxocarbon.nvim' },
+    { 'sigmasd/deno-nvim' },
     {
         "lervag/vimtex",
         config = function()
             vim.cmd("call vimtex#init()")
         end,
     },
-    {"ggandor/leap.nvim"}
+    { "ggandor/leap.nvim" },
+    {
+        "norcalli/nvim-colorizer.lua",
+        config = function()
+            require("colorizer").setup({
+                "css", "scss", "html", "javascript", "typescript", "javascriptreact",
+                "typescriptreact", "lua"
+            }, {
+                RGB = true, -- #RGB hex codes
+                RRGGBB = true, -- #RRGGBB hex codes
+                RRGGBBAA = true, -- #RRGGBBAA hex codes
+                rgb_fn = true, -- CSS rgb() and rgba() functions
+                hsl_fn = true, -- CSS hsl() and hsla() functions
+                css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+                css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+            })
+        end,
+    },
 }
 
 -- Vim Setup
 local blink = "blinkwait700-blinkoff200-blinkon125"
 vim.opt.colorcolumn = "80,120"
 vim.opt.expandtab = true
-vim.opt.guicursor = "n-c-sm:"..blink..",i-ci-ve:ver25-"..blink..",r-cr-o:hor20,v:block"
+vim.opt.guicursor = "n-c-sm:" .. blink .. ",i-ci-ve:ver25-" .. blink .. ",r-cr-o:hor20,v:block"
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.nu = true
@@ -73,9 +90,9 @@ lvim.builtin.lir.show_hidden_files = true
 lvim.builtin.lualine.style = "default"
 
 -- Keybindings
-lvim.lsp.buffer_mappings.normal_mode ={
+lvim.lsp.buffer_mappings.normal_mode = {
     -- ["K"] = { vim.lsp.buf.hover, "Show hover" },
-    ["gh"] = {"<CMD>Lspsaga hover_doc<CR>", "Hover doc"},
+    ["gh"] = { "<CMD>Lspsaga hover_doc<CR>", "Hover doc" },
     ["gd"] = { "<CMD>Lspsaga lsp_finder<CR>", "Goto Definition" },
     -- ["gd"] = { vim.lsp.buf.definition },
     ["gD"] = { vim.lsp.buf.declaration, "Goto declaration" },
@@ -100,26 +117,27 @@ require('leap').add_default_mappings()
 
 -- Bufferline
 local function is_ft(b, ft)
-  return vim.bo[b].filetype == ft
+    return vim.bo[b].filetype == ft
 end
 
 lvim.builtin.bufferline.options.mode = "tabs"
 local function custom_filter(buf, buf_nums)
-  local logs = vim.tbl_filter(function(b)
-    return is_ft(b, "log")
-  end, buf_nums or {})
-  if vim.tbl_isempty(logs) then
-    return true
-  end
-  local tab_num = vim.fn.tabpagenr()
-  local last_tab = vim.fn.tabpagenr "$"
-  local is_log = is_ft(buf, "log")
-  if last_tab == 1 then
-    return true
-  end
-  -- only show log buffers in secondary tabs
-  return (tab_num == last_tab and is_log) or (tab_num ~= last_tab and not is_log)
+    local logs = vim.tbl_filter(function(b)
+        return is_ft(b, "log")
+    end, buf_nums or {})
+    if vim.tbl_isempty(logs) then
+        return true
+    end
+    local tab_num = vim.fn.tabpagenr()
+    local last_tab = vim.fn.tabpagenr "$"
+    local is_log = is_ft(buf, "log")
+    if last_tab == 1 then
+        return true
+    end
+    -- only show log buffers in secondary tabs
+    return (tab_num == last_tab and is_log) or (tab_num ~= last_tab and not is_log)
 end
+
 lvim.builtin.bufferline.options.custom_filter = custom_filter
 
 -- Treesitter
