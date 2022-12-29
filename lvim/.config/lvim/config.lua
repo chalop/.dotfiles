@@ -57,11 +57,11 @@ vim.opt.whichwrap = ""
 -- LunarVim Setup
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = false
-vim.opt.background = "dark" -- set this to dark or light
-lvim.colorscheme = "oxocarbon"
+-- vim.opt.background = "dark" -- set this to dark or light
+-- lvim.colorscheme = "oxocarbon"
 -- lvim.colorscheme = "enfocado"
 lvim.leader = "space"
-lvim.transparent_window = true
+-- lvim.transparent_window = true
 
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
