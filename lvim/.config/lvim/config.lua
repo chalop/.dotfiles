@@ -2,7 +2,7 @@
 lvim.plugins = {
     { "folke/trouble.nvim", cmd = "TroubleToggle" },
     { "glepnir/lspsaga.nvim" },
-    "Mofiqul/dracula.nvim",
+    {"Mofiqul/dracula.nvim"},
     { "mbbill/undotree" },
     { 'wuelnerdotexe/vim-enfocado' },
     { 'nyoom-engineering/oxocarbon.nvim' },
@@ -31,6 +31,7 @@ lvim.plugins = {
             })
         end,
     },
+    { "ellisonleao/gruvbox.nvim" }
 }
 
 -- Vim Setup
@@ -51,6 +52,7 @@ vim.opt.scrolloff = 8
 vim.opt.updatetime = 50
 vim.opt.wrap = false
 vim.opt.termguicolors = true
+vim.opt.cursorline = true
 -- declares which chars should allow to go to next line
 -- lvim defaults: "<,>,[,],h,l"
 vim.opt.whichwrap = ""
@@ -75,10 +77,10 @@ vim.opt.whichwrap = ""
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = false
 -- vim.opt.background = "dark" -- set this to dark or light
--- lvim.colorscheme = "oxocarbon"
+lvim.colorscheme = "gruvbox"
 -- lvim.colorscheme = "enfocado"
 lvim.leader = "space"
--- lvim.transparent_window = true
+lvim.transparent_window = true
 
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
@@ -93,9 +95,9 @@ lvim.builtin.lualine.style = "default"
 lvim.lsp.buffer_mappings.normal_mode = {
     -- ["K"] = { vim.lsp.buf.hover, "Show hover" },
     ["gh"] = { "<CMD>Lspsaga hover_doc<CR>", "Hover doc" },
-    ["gd"] = { "<CMD>Lspsaga lsp_finder<CR>", "Goto Definition" },
-    -- ["gd"] = { vim.lsp.buf.definition },
-    ["gD"] = { vim.lsp.buf.declaration, "Goto declaration" },
+    ["gd"] = { vim.lsp.buf.definition, "Goto Definition" },
+    ["gD"] = { "<CMD>Lspsaga lsp_finder<CR>", "Open LSP Finder" },
+    -- ["gD"] = { vim.lsp.buf.declaration, "Goto declaration" },
     ["gr"] = { vim.lsp.buf.references, "References" },
     -- ["gR"] = { vim.lsp.buf.rename, "Rename" },
     ["gR"] = { "<CMD>Lspsaga rename<CR>", "Rename" },
@@ -170,6 +172,14 @@ lvim.builtin.telescope.pickers.find_files = {
     hidden = true,
     -- file_ignore_patterns = "^.git/"
 }
+
+lvim.builtin.telescope.pickers.git_files = {
+    layout_strategy = "horizontal",
+    layout_config = { width = 0.80, height = 0.80, prompt_position = "bottom" },
+    hidden = true,
+    -- file_ignore_patterns = "^.git/"
+}
+
 lvim.builtin.telescope.pickers.live_grep = {
     layout_strategy = "horizontal"
 }
