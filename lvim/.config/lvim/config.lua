@@ -31,7 +31,10 @@ lvim.plugins = {
             })
         end,
     },
-    { "ellisonleao/gruvbox.nvim" }
+    { "ellisonleao/gruvbox.nvim" },
+    { "~/Dev/m/freewolf.nvim" },
+    { "nvim-treesitter/playground" }
+
 }
 
 -- Vim Setup
@@ -77,7 +80,7 @@ vim.opt.whichwrap = ""
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = false
 -- vim.opt.background = "dark" -- set this to dark or light
-lvim.colorscheme = "gruvbox"
+lvim.colorscheme = "freewolf"
 -- lvim.colorscheme = "enfocado"
 lvim.leader = "space"
 lvim.transparent_window = true
