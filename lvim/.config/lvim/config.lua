@@ -4,8 +4,6 @@ lvim.plugins = {
     { "glepnir/lspsaga.nvim" },
     {"Mofiqul/dracula.nvim"},
     { "mbbill/undotree" },
-    { 'wuelnerdotexe/vim-enfocado' },
-    { 'nyoom-engineering/oxocarbon.nvim' },
     { 'sigmasd/deno-nvim' },
     {
         "lervag/vimtex",
@@ -33,9 +31,30 @@ lvim.plugins = {
     },
     { "ellisonleao/gruvbox.nvim" },
     { "~/Dev/m/freewolf.nvim" },
-    { "nvim-treesitter/playground" }
-
+    { "nvim-treesitter/playground" },
+ {
+    "zbirenbaum/copilot.lua",
+    event = { "VimEnter" },
+    config = function()
+      vim.defer_fn(function()
+        require("copilot").setup {
+          -- LunarVim users need to specify path to the plugin manager 
+          plugin_manager_path = os.getenv "LUNARVIM_RUNTIME_DIR" .. "/site/pack/packer",
+        }
+      end, 100)
+    end,
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    after = { "copilot.lua" },
+    config = function()
+      require("copilot_cmp").setup()
+    end
+  },
 }
+
+lvim.builtin.cmp.formatting.source_names["copilot"] = "(Copilot)"
+table.insert(lvim.builtin.cmp.sources, 1, { name = "copilot" })
 
 -- Vim Setup
 local blink = "blinkwait700-blinkoff200-blinkon125"
@@ -156,6 +175,7 @@ lvim.builtin.treesitter.ensure_installed = {
     "css",
     "java",
     "javascript",
+    "jsdoc",
     "json",
     "lua",
     "prisma",
@@ -191,6 +211,8 @@ lvim.builtin.telescope.pickers.live_grep = {
 lvim.builtin.nvimtree.setup.view.side = "right"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
+lvim.builtin.nvimtree.setup.view.number = true
+lvim.builtin.nvimtree.setup.view.relativenumber = true
 
 -- Formatting
 local formatters = require "lvim.lsp.null-ls.formatters"
