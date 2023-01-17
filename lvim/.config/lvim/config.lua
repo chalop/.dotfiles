@@ -1,8 +1,16 @@
 -- Packer
 lvim.plugins = {
     { "folke/trouble.nvim", cmd = "TroubleToggle" },
-    { "glepnir/lspsaga.nvim" },
-    {"Mofiqul/dracula.nvim"},
+    { "glepnir/lspsaga.nvim", branch = "main",
+        config = function()
+            require('lspsaga').setup({ ui = { border = 'rounded', colors = { normal_bg = "NONE" } } })
+        end,
+    },
+    { "Mofiqul/dracula.nvim", 
+config = function()
+require('dracula').setup({italic_comment = true})
+        end,
+    },
     { "mbbill/undotree" },
     { 'sigmasd/deno-nvim' },
     {
@@ -29,28 +37,34 @@ lvim.plugins = {
             })
         end,
     },
-    { "ellisonleao/gruvbox.nvim" },
-    { "~/Dev/m/freewolf.nvim" },
-    { "nvim-treesitter/playground" },
- {
-    "zbirenbaum/copilot.lua",
-    event = { "VimEnter" },
-    config = function()
-      vim.defer_fn(function()
-        require("copilot").setup {
-          -- LunarVim users need to specify path to the plugin manager 
-          plugin_manager_path = os.getenv "LUNARVIM_RUNTIME_DIR" .. "/site/pack/packer",
-        }
-      end, 100)
-    end,
-  },
-  {
-    "zbirenbaum/copilot-cmp",
-    after = { "copilot.lua" },
-    config = function()
-      require("copilot_cmp").setup()
-    end
-  },
+    { "ellisonleao/gruvbox.nvim", config = function ()
+require('gruvbox').setup({italic = false})
+    end },
+    { "~/Dev/m/freewolf.nvim",
+        config = function()
+            require("freewolf").setup{ transparent_bg = true, italic_comment = false }
+        end
+    },
+    { "nvim-treesitter/playground", event = "BufRead" },
+    {
+        "zbirenbaum/copilot.lua",
+        event = { "VimEnter" },
+        config = function()
+            vim.defer_fn(function()
+                require("copilot").setup {
+                    -- LunarVim users need to specify path to the plugin manager
+                    plugin_manager_path = os.getenv "LUNARVIM_RUNTIME_DIR" .. "/site/pack/packer",
+                }
+            end, 100)
+        end,
+    },
+    {
+        "zbirenbaum/copilot-cmp",
+        after = { "copilot.lua" },
+        config = function()
+            require("copilot_cmp").setup()
+        end
+    },
 }
 
 lvim.builtin.cmp.formatting.source_names["copilot"] = "(Copilot)"
@@ -65,9 +79,9 @@ vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.nu = true
 vim.opt.relativenumber = true
-vim.opt.shiftwidth = 4
 vim.opt.showcmd = true
 vim.opt.smartindent = true
+vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.tabstop = 4
 vim.opt.scrolloff = 8
@@ -170,8 +184,10 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 lvim.builtin.treesitter.ensure_installed = {
+    "astro",
     "bash",
     "c",
+    "cpp",
     "css",
     "java",
     "javascript",
@@ -184,6 +200,8 @@ lvim.builtin.treesitter.ensure_installed = {
     "tsx",
     "typescript",
     "yaml",
+    "markdown",
+    "markdown_inline"
 }
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enable = true
