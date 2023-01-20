@@ -6,9 +6,9 @@ lvim.plugins = {
             require('lspsaga').setup({ ui = { border = 'rounded', colors = { normal_bg = "NONE" } } })
         end,
     },
-    { "Mofiqul/dracula.nvim", 
-config = function()
-require('dracula').setup({italic_comment = true})
+    { "Mofiqul/dracula.nvim",
+        config = function()
+            require('dracula').setup({ italic_comment = true })
         end,
     },
     { "mbbill/undotree" },
@@ -37,12 +37,13 @@ require('dracula').setup({italic_comment = true})
             })
         end,
     },
-    { "ellisonleao/gruvbox.nvim", config = function ()
-require('gruvbox').setup({italic = false})
-    end },
+    { "ellisonleao/gruvbox.nvim",
+        config = function()
+            require('gruvbox').setup({ italic = false })
+        end },
     { "~/Dev/m/freewolf.nvim",
         config = function()
-            require("freewolf").setup{ transparent_bg = true, italic_comment = false }
+            require("freewolf").setup { transparent_bg = true, italic_comment = false }
         end
     },
     { "nvim-treesitter/playground", event = "BufRead" },
@@ -65,6 +66,34 @@ require('gruvbox').setup({italic = false})
             require("copilot_cmp").setup()
         end
     },
+    { "ziontee113/color-picker.nvim",
+        config = function()
+            require("color-picker")
+        end,
+    },
+    {
+        "gbrlsnchs/winpick.nvim",
+        config = function()
+            require("winpick").setup({
+                border = "rounded",
+                -- filter = nil, -- doesn't ignore any window by default
+                prompt = "Select a window: ",
+                -- format_label = require('winpick').defaults.format_label, -- formatted as "<label>: <buffer name>"
+                chars = nil,
+            })
+        end
+    },
+    {
+        's1n7ax/nvim-window-picker',
+        -- tag = 'v1.*',
+        config = function()
+            require('window-picker').setup({
+                selection_chars = 'HTNSAOEUGCRL"<>PXB',
+                fg_color = '#1F2225',
+                other_win_hl_color = '#FFAF00',
+            })
+        end
+    }
 }
 
 lvim.builtin.cmp.formatting.source_names["copilot"] = "(Copilot)"
@@ -148,6 +177,22 @@ lvim.lsp.buffer_mappings.normal_mode = {
         "Show line diagnostics",
     },
 }
+
+lvim.builtin.which_key.mappings["w"] = {
+    name = "Window",
+    s = {
+        function()
+            print("Save window layout")
+            local winid = require("window-picker").pick_window() or vim.api.nvim_get_current_win()
+            if winid then vim.api.nvim_set_current_win(winid) end
+            -- local winid = require("winpick").select()
+            -- if winid then vim.api.nvim_set_current_win(winid) end
+        end, "Select a window"
+    },
+
+}
+
+lvim.keys.normal_mode["<leader>x"] = "<cmd>!chmod +x %<CR>"
 
 -- Leap
 require('leap').add_default_mappings()
@@ -252,7 +297,6 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 
-lvim.keys.normal_mode["<leader>x"] = "<cmd>!chmod +x %<CR>"
 
 -- add your own keymapping
 -- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"

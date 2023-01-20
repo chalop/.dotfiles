@@ -47,6 +47,7 @@ alias yt-mp4='yt-dlp -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/bes
 alias h-search="history | grep"
 alias clear="echo -n -e \"\e[2J\e[3J\e[1;1H\""
 alias e="exit"
+alias lg="lazygit"
 
 src() {
     cd "${PWD/\/src\/*//src/../}"

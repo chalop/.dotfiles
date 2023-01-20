@@ -224,6 +224,7 @@ colors:
     black: '#21222c'
     red: '#ff5555'
     green: '#50fa7b'
+    orange: '#ffb86c'
     yellow: '#f1fa8c'
     blue: '#bd93f9'
     magenta: '#ff79c6'
