@@ -3,7 +3,7 @@ lvim.plugins = {
     { "folke/trouble.nvim", cmd = "TroubleToggle" },
     { "glepnir/lspsaga.nvim", branch = "main",
         config = function()
-            require('lspsaga').setup({ ui = { border = 'rounded', colors = { normal_bg = "NONE" } } })
+            require('lspsaga').setup({ ui = { border = 'rounded', colors = { normal_bg = "NONE", } } })
         end,
     },
     { "Mofiqul/dracula.nvim",
@@ -43,12 +43,13 @@ lvim.plugins = {
         end },
     { "~/Dev/m/freewolf.nvim",
         config = function()
-            require("freewolf").setup { transparent_bg = true, italic_comment = false }
+            require("freewolf").setup({ transparent_bg = true, italic_comment = true })
+
+            vim.cmd("colorscheme freewolf")
         end
     },
     { "nvim-treesitter/playground", event = "BufRead" },
-    {
-        "zbirenbaum/copilot.lua",
+    { "zbirenbaum/copilot.lua",
         event = { "VimEnter" },
         config = function()
             vim.defer_fn(function()
@@ -66,7 +67,8 @@ lvim.plugins = {
             require("copilot_cmp").setup()
         end
     },
-    { "ziontee113/color-picker.nvim",
+    {
+        "ziontee113/color-picker.nvim",
         config = function()
             require("color-picker")
         end,
@@ -93,7 +95,17 @@ lvim.plugins = {
                 other_win_hl_color = '#FFAF00',
             })
         end
-    }
+    },
+    { 'ThePrimeagen/harpoon' },
+    { 'editorconfig/editorconfig-vim' },
+    {
+        "iamcco/markdown-preview.nvim",
+        run = "cd app && npm install",
+        ft = "markdown",
+        config = function()
+            vim.g.mkdp_auto_start = 1
+        end,
+    },
 }
 
 lvim.builtin.cmp.formatting.source_names["copilot"] = "(Copilot)"
@@ -141,11 +153,10 @@ vim.opt.whichwrap = ""
 -- LunarVim Setup
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = false
--- vim.opt.background = "dark" -- set this to dark or light
 lvim.colorscheme = "freewolf"
--- lvim.colorscheme = "enfocado"
+
 lvim.leader = "space"
-lvim.transparent_window = true
+lvim.transparent_window = false
 
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
@@ -155,44 +166,6 @@ lvim.builtin.terminal.active = true
 lvim.builtin.lir.show_hidden_files = true
 
 lvim.builtin.lualine.style = "default"
-
--- Keybindings
-lvim.lsp.buffer_mappings.normal_mode = {
-    -- ["K"] = { vim.lsp.buf.hover, "Show hover" },
-    ["gh"] = { "<CMD>Lspsaga hover_doc<CR>", "Hover doc" },
-    ["gd"] = { vim.lsp.buf.definition, "Goto Definition" },
-    ["gD"] = { "<CMD>Lspsaga lsp_finder<CR>", "Open LSP Finder" },
-    -- ["gD"] = { vim.lsp.buf.declaration, "Goto declaration" },
-    ["gr"] = { vim.lsp.buf.references, "References" },
-    -- ["gR"] = { vim.lsp.buf.rename, "Rename" },
-    ["gR"] = { "<CMD>Lspsaga rename<CR>", "Rename" },
-    ["gI"] = { vim.lsp.buf.implementation, "Goto Implementation" },
-    ["gs"] = { vim.lsp.buf.signature_help, "show signature help" },
-    ["gl"] = {
-        function()
-            local config = lvim.lsp.diagnostics.float
-            config.scope = "line"
-            vim.diagnostic.open_float({}, config)
-        end,
-        "Show line diagnostics",
-    },
-}
-
-lvim.builtin.which_key.mappings["w"] = {
-    name = "Window",
-    s = {
-        function()
-            print("Save window layout")
-            local winid = require("window-picker").pick_window() or vim.api.nvim_get_current_win()
-            if winid then vim.api.nvim_set_current_win(winid) end
-            -- local winid = require("winpick").select()
-            -- if winid then vim.api.nvim_set_current_win(winid) end
-        end, "Select a window"
-    },
-
-}
-
-lvim.keys.normal_mode["<leader>x"] = "<cmd>!chmod +x %<CR>"
 
 -- Leap
 require('leap').add_default_mappings()
@@ -250,6 +223,7 @@ lvim.builtin.treesitter.ensure_installed = {
 }
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enable = true
+lvim.builtin.treesitter.rainbow.enable = false
 
 -- Telescope
 lvim.builtin.telescope.pickers.find_files = {
@@ -287,16 +261,61 @@ formatters.setup {
     },
 }
 
+-- Keybindings
+
+local ui = require("harpoon.ui")
+
+lvim.lsp.buffer_mappings.normal_mode = {
+    -- ["K"] = { vim.lsp.buf.hover, "Show hover" },
+    ["gh"] = { "<CMD>Lspsaga hover_doc<CR>", "Hover doc" },
+    ["gd"] = { vim.lsp.buf.definition, "Goto Definition" },
+    ["gD"] = { "<CMD>Lspsaga lsp_finder<CR>", "Open LSP Finder" },
+    -- ["gD"] = { vim.lsp.buf.declaration, "Goto declaration" },
+    ["gr"] = { vim.lsp.buf.references, "References" },
+    -- ["gR"] = { vim.lsp.buf.rename, "Rename" },
+    ["gR"] = { "<CMD>Lspsaga rename<CR>", "Rename" },
+    ["gI"] = { vim.lsp.buf.implementation, "Goto Implementation" },
+    ["gs"] = { vim.lsp.buf.signature_help, "show signature help" },
+    ["gl"] = {
+        function()
+            local config = lvim.lsp.diagnostics.float
+            config.scope = "line"
+            vim.diagnostic.open_float({}, config)
+        end,
+        "Show line diagnostics",
+    },
+}
+
+lvim.builtin.which_key.mappings["w"] = {
+    name = "Window",
+    s = {
+        function()
+            local winid = require("window-picker").pick_window() or vim.api.nvim_get_current_win()
+            if winid then vim.api.nvim_set_current_win(winid) end
+        end, "Select a window"
+    },
+    a = { function() require("harpoon.mark").add_file() end, "Add file to harpoon" },
+    h = { function() ui.toggle_quick_menu() end, "Toggle harpoon menu" }
+
+}
+
+lvim.keys.normal_mode["<leader>x"] = "<cmd>!chmod +x %<CR>"
+
 -- Keymaps
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
+-- Moves selected line / block of text in visual mode
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
+vim.keymap.set("n", "<C-h>", function() ui.nav_file(1) end)
+vim.keymap.set("n", "<C-t>", function() ui.nav_file(2) end)
+vim.keymap.set("n", "<C-n>", function() ui.nav_file(3) end)
+vim.keymap.set("n", "<C-s>", function() ui.nav_file(4) end)
 
 -- add your own keymapping
 -- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"

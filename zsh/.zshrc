@@ -81,7 +81,16 @@ prompt_dir() {
 
 #PROMPT='%{$fg[yellow]%}[%D{%f/%m/%y} %D{%L:%M:%S}] '$PROMPT
 #PROMPT='%{$fg[cyan]%}%D{%f/%m/%y} %D{%T} '$PROMPT
-PROMPT='%{$fg[cyan]%}%D{%d/%m/%y %H:%M:%S} '$PROMPT
+tprompt(){
+    if test "${PROMPT#*cyan}" != "cyan" 
+    then
+        PROMPT='%{$fg[cyan]%}%D{%d/%m/%y %H:%M:%S} '$PROMPT
+    else 
+        # TODO this doesn't work, the idea is to remove the "time pattern" here
+        PROMPT=$(echo $PROMPT | awk '{print substr ($0, 35)}')
+        # PROMPT= e$PROMPT | cut -c 36-
+    fi
+}
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 bindkey -v
