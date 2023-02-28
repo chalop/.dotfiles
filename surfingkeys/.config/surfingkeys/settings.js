@@ -13,6 +13,9 @@ api.map('gt', 'T');
 // an example to remove mapkey `Ctrl-i`
 api.unmap('<ctrl-i>');
 
+// for one-hand dvorak
+api.Hints.setCharacters('htnsgcrlmwvzfdb');
+
 // set theme
 settings.theme = `
 .sk_theme {

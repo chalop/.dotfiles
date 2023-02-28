@@ -11,4 +11,5 @@ export PATH=$PATH:/usr/local/go/bin
 export PATH="/usr/local/opt/qt@5/bin:$PATH"
 
 export PATH="/Users/chalop/Projects/sioyek/build/sioyek.app/Contents/MacOS/:$PATH"
+export PATH="/Applications/Stats.app/Contents/Resources:$PATH"
 
