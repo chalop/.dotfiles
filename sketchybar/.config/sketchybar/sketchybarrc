@@ -84,19 +84,22 @@ sketchybar --add item space_separator left                         \
 # volume is registered. More info about the event system can be found here:
 # https://felixkratz.github.io/SketchyBar/config/events
 
-sketchybar --add item clock right                              \
-           --set clock   update_freq=1                         \
-                         icon=                                \
-                         script="$PLUGIN_DIR/clock.sh"         \
+           sketchybar --add item clock right                              \
+               --set clock   update_freq=1                         \
+               icon=                                \
+               script="$PLUGIN_DIR/clock.sh"         \
+               \
+               --add item volume right                             \
+               --set volume  script="$PLUGIN_DIR/volume.sh"        \
+               --subscribe volume volume_change                    \
+               \
+               --add item fan right                                \
+               --set fan update_freq=3                             \
+               icon= \
+               script="$PLUGIN_DIR/temp.sh"                      \
                                                                \
-           --add item volume right                             \
-           --set volume  script="$PLUGIN_DIR/volume.sh"        \
-           --subscribe volume volume_change                    \
-                                                               \
-           --add item fan right                                \
-           --set fan update_freq=3                             \
-             script="$PLUGIN_DIR/temp.sh"                      \
-                                                               \
+                                                                          # icon= \
+
            # --add item wifi right                               \
            # --set wifi    script="$PLUGIN_DIR/wifi.sh"          \
            #               icon=直                               \

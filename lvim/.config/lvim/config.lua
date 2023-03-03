@@ -31,6 +31,7 @@ lvim.plugins = {
     --     end,
     -- },
     { "ggandor/leap.nvim" },
+    {"uarun/vim-protobuf"},
     {
         "norcalli/nvim-colorizer.lua",
         config = function()
@@ -183,6 +184,7 @@ vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.nu = true
 vim.opt.relativenumber = true
+vim.opt.autoindent = true
 vim.opt.showcmd = true
 vim.opt.smartindent = true
 vim.opt.shiftwidth = 4
@@ -195,6 +197,7 @@ vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.api.nvim_clear_autocmds { pattern = { "gitcommit", "markdown" }, group = "_filetype_settings" }
 vim.b.copilot_enable = false
+
 
 
 -- if vim.fn.exists('space_match') then
@@ -210,6 +213,7 @@ vim.opt.list = true
 -- end
 -- local space_match = vim.fn.matchadd('Conceal', '\v( @<= )|(  @=)', -1, -1, {'conceal' , '·'})
 vim.opt.listchars = { tab = '├─', trail = '·', space = '·', precedes = '←', extends = '→', }
+lvim.builtin.autopairs.active = false
 
 
 -- LunarVim Setup

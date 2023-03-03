@@ -1,0 +1,11 @@
+{
+    ".source.go": {
+        "syntax proto3": {
+            "method": {
+                "prefix": "rpc",
+                "description": "service method",
+                "body": "rpc ${1:MethodName} (${2:Request}) returns (${3:Response});"
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "name": "nvim-snippets",
+    "author": "chalop",
+    "engines": {
+        "vscode": "^1.11.0"
+    },
+    "contributes": {
+        "snippets": [
+            {
+                "language": "proto3",
+                "path": "./proto3.json"
+            },
+            {
+                "language": "python",
+                "path": "./python.json"
+            }
+        ]
+    }
+}
