@@ -18,7 +18,7 @@ hyper - backspace : $(yabai -m window $(yabai -m query --windows --window | jq -
 #hyper - return : /Applications/iTerm.app/Contents/MacOS/iTerm2
 
 ## open terminal
-hyper - return : open -a Alacritty
+hyper - return : open -n /Applications/Alacritty.app #open -a Alacritty
 
 ## swap window
 hyper - y : yabai -m window --swap west
