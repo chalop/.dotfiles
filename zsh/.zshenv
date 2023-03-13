@@ -1,18 +1,16 @@
 . "$HOME/.cargo/env"
-export PATH=/Applications/MAMP/bin/php/php8.0.8/bin/:$PATH
-export PATH="$HOME/.composer/vendor/bin:$PATH"
 
-
-PYTHON_BIN_PATH="$(python3 -m site --user-base)/bin"
-export PATH="$PYTHON_BIN_PATH:$PATH"
+PYTHON_BIN="$(python3 -m site --user-base)/bin"
+GO_BIN="/usr/local/go/bin"
+export PATH="$PYTHON_BIN:$GO_BIN:$PATH"
 
 
 export PATH=$PATH:/usr/local/go/bin
 
-export PATH="$PATH:$(go env GOPATH)/bin"
-
-export PATH="/usr/local/opt/qt@5/bin:$PATH"
-
-export PATH="/Users/chalop/Projects/sioyek/build/sioyek.app/Contents/MacOS/:$PATH"
-export PATH="/Applications/Stats.app/Contents/Resources:$PATH"
-
+path=(
+    $path
+    $(go env GOPATH)/bin
+    /usr/local/opt/qt@5/bin
+    /Users/chalop/Projects/sioyek/build/sioyek.app/Contents/MacOS/
+    /Applications/Stats.app/Contents/Resources
+)

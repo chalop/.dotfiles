@@ -75,9 +75,6 @@ prompt_context(){
 prompt_dir() {
     prompt_segment black white ' %1~ '
 }
-# figlet -f drpepper Hello There
-# echo 👀 👀 👀 👀 👀 👀 👀 👀 👀
-# pfetch
 
 #PROMPT='%{$fg[yellow]%}[%D{%f/%m/%y} %D{%L:%M:%S}] '$PROMPT
 #PROMPT='%{$fg[cyan]%}%D{%f/%m/%y} %D{%T} '$PROMPT
