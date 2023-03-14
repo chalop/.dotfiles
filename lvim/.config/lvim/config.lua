@@ -19,17 +19,6 @@ lvim.plugins = {
     },
     { "mbbill/undotree" },
     { 'sigmasd/deno-nvim' },
-    -- {
-    --     "lervag/vimtex",
-    --     config = function()
-    --         vim.g.vimtex_view_method = "sioyek"
-    --         vim.g.maplocalleader = ","
-    --         vim.g.vimtex_compiler_latexmk_engines = {
-    --             _ = '-xelatex'
-    --         }
-    --         vim.cmd("call vimtex#init()")
-    --     end,
-    -- },
     { "ggandor/leap.nvim" },
     {"uarun/vim-protobuf"},
     {
