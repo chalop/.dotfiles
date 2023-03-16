@@ -20,7 +20,7 @@ lvim.plugins = {
     { "mbbill/undotree" },
     { 'sigmasd/deno-nvim' },
     { "ggandor/leap.nvim" },
-    {"uarun/vim-protobuf"},
+    { "uarun/vim-protobuf" },
     {
         "norcalli/nvim-colorizer.lua",
         config = function()
@@ -63,7 +63,7 @@ lvim.plugins = {
             vim.cmd("colorscheme freewolf")
         end
     },
-    { "nvim-treesitter/playground", event = "BufRead" },
+    { "nvim-treesitter/playground",   event = "BufRead" },
     -- { "zbirenbaum/copilot.lua",
     --     event = { "VimEnter" },
     --     config = function()
@@ -143,7 +143,11 @@ lvim.plugins = {
                 -- refer to the configuration section below
             }
         end
-    } }
+    },
+    {
+        "mityu/vim-applescript"
+    }
+}
 
 require('lspconfig.ui.windows').default_options.border = 'rounded'
 
