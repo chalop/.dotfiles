@@ -13,8 +13,8 @@ sketchybar --set $NAME label="$ROUNDED_TEMP$DEGREES_SYMBOL"
 
 if [ $((ROUNDED_TEMP)) -gt 69 ]
 then
-    sketchybar --set $NAME label.color=0xffff5555
-    sketchybar --set $NAME icon.color=0xffff5555
+    sketchybar --set $NAME label.color=0xffbf3f3f
+    sketchybar --set $NAME icon.color=0xffbf3f3f
 else
     sketchybar --set $NAME label.color=0xffffffff
     sketchybar --set $NAME icon.color=0xffffffff

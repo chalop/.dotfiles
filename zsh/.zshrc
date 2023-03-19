@@ -76,6 +76,19 @@ prompt_dir() {
     prompt_segment black white ' %1~ '
 }
 
+prompt_end() {
+  if [[ -n $CURRENT_BG ]]; then
+      print -n "%{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
+  else
+      print -n "%{%k%}"
+  fi
+
+  print -n "%{%f%}"
+  CURRENT_BG='' 
+
+  printf "\n >";
+}
+
 #PROMPT='%{$fg[yellow]%}[%D{%f/%m/%y} %D{%L:%M:%S}] '$PROMPT
 #PROMPT='%{$fg[cyan]%}%D{%f/%m/%y} %D{%T} '$PROMPT
 tprompt(){

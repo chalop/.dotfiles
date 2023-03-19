@@ -27,7 +27,7 @@ end repeat
 
 -- Mission Control is called again in order to close it.
 do shell script "open -a 'Mission Control'"
-do shell script "/usr/local/bin/brew services restart sketchybar"
+do shell script "/usr/local/bin/sketchybar --update"
 delay 0.3
 
 display notification "Spaces have been created." with title "Spaces Setup"
