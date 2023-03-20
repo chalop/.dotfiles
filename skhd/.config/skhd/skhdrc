@@ -5,8 +5,18 @@
 # open terminal
 hyper - return : open -n /Applications/Alacritty.app #open -a Alacritty
 
-# toggle window fullscreen zoom
-hyper - f : yabai -m window --toggle zoom-fullscreen
+# maximize window
+hyper - m : yabai -m window --toggle zoom-fullscreen
+
+# # toggle fullscreen on current screen
+# hyper - g : yabai -m space --toggle padding ; \
+# yabai -m space --togel gag ; yabai -m config external_bar off:0:0; \
+# scketchybar --bar hidden=true
+
+# # toggle fullscreen on current screen
+# rcmd - rshift - rctrl - alt - g : yabai -m space --toggle padding ; \
+# yabai -m space --togel gag ; yabai -m config external_bar all:20:0; \
+# scketchybar --bar hidden=false
 
 # toggle float window and center on screen
 hyper - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
@@ -19,6 +29,12 @@ hyper - b : yabai -m space --balance
 
 # reset border color in default mode
 :: default : yabai -m config active_window_border_color 0xFF50FA7B
+
+# alternate window focus
+alt - h : yabai -m window --focus west
+alt - j : yabai -m window --focus south
+alt - k : yabai -m window --focus north
+alt - l : yabai -m window --focus east
 
 # set resize border color
 :: resize @ : yabai -m config active_window_border_color 0xFFBD93F9
