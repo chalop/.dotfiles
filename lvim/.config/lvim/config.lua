@@ -12,7 +12,8 @@ lvim.plugins = {
             })
         end,
     },
-    { "Mofiqul/dracula.nvim",
+    {
+        "Mofiqul/dracula.nvim",
         config = function()
             require('dracula').setup({ italic_comment = true })
         end,
@@ -25,33 +26,36 @@ lvim.plugins = {
         "norcalli/nvim-colorizer.lua",
         config = function()
             require("colorizer").setup({
-                "css",
-                "html",
-                "javascript",
-                "javascriptreact",
-                "lua",
-                "markdown",
-                "markdown_inline",
-                "scss",
-                "typescript",
-                "typescriptreact",
-            },
+                    "css",
+                    "html",
+                    "javascript",
+                    "javascriptreact",
+                    "lua",
+                    "markdown",
+                    "markdown_inline",
+                    "scss",
+                    "typescript",
+                    "typescriptreact",
+                },
                 {
-                    RGB = true, -- #RGB hex codes
-                    RRGGBB = true, -- #RRGGBB hex codes
+                    RGB = true,      -- #RGB hex codes
+                    RRGGBB = true,   -- #RRGGBB hex codes
                     RRGGBBAA = true, -- #RRGGBBAA hex codes
-                    rgb_fn = true, -- CSS rgb() and rgba() functions
-                    hsl_fn = true, -- CSS hsl() and hsla() functions
-                    css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-                    css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+                    rgb_fn = true,   -- CSS rgb() and rgba() functions
+                    hsl_fn = true,   -- CSS hsl() and hsla() functions
+                    css = true,      -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+                    css_fn = true,   -- Enable all CSS *functions*: rgb_fn, hsl_fn
                 })
         end,
     },
-    { "ellisonleao/gruvbox.nvim",
+    {
+        "ellisonleao/gruvbox.nvim",
         config = function()
             require('gruvbox').setup({ italic = false })
-        end },
-    { "~/Dev/m/freewolf.nvim",
+        end
+    },
+    {
+        "~/Dev/m/freewolf.nvim",
         config = function()
             require("freewolf").setup({
                 transparent_bg = true,
@@ -144,11 +148,28 @@ lvim.plugins = {
             }
         end
     },
-    {
-        "mityu/vim-applescript"
-    }
+    { "mityu/vim-applescript" },
+    { "~/Dev/m/cloak.nvim" }
 }
 
+require('cloak').setup({
+    enabled = true,
+    cloak_character = '*',
+    -- The applied highlight group (colors) on the cloaking, see `:h highlight`.
+    highlight_group = 'Comment',
+    cloak_length = 10,
+    patterns = {
+        {
+            -- Match any file starting with '.env'.
+            -- This can be a table to match multiple file patterns.
+            file_pattern = '.env*',
+            -- Match an equals sign and any character after it.
+            -- This can also be a table of patterns to cloak,
+            -- example: cloak_pattern = { ':.+', '-.+' } for yaml files.
+            cloak_pattern = '=.+',
+        },
+    },
+})
 require('lspconfig.ui.windows').default_options.border = 'rounded'
 
 -- lvim.builtin.cmp.formatting.source_names["copilot"] = "(Copilot)"
@@ -364,7 +385,7 @@ lvim.builtin.which_key.mappings["w"] = {
     z = { function()
         require("zen-mode").toggle({
             window = {
-                width = .70 -- width will be 85% of the editor width
+                width = .70
             }
         })
     end, "Toggle Zen mode" }
