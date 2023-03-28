@@ -86,7 +86,7 @@ prompt_end() {
   print -n "%{%f%}"
   CURRENT_BG='' 
 
-  printf "\n >";
+  printf "\n $";
 }
 
 #PROMPT='%{$fg[yellow]%}[%D{%f/%m/%y} %D{%L:%M:%S}] '$PROMPT

@@ -49,12 +49,6 @@ lvim.plugins = {
         end,
     },
     {
-        "ellisonleao/gruvbox.nvim",
-        config = function()
-            require('gruvbox').setup({ italic = false })
-        end
-    },
-    {
         "~/Dev/m/freewolf.nvim",
         config = function()
             require("freewolf").setup({
@@ -149,7 +143,7 @@ lvim.plugins = {
         end
     },
     { "mityu/vim-applescript" },
-    { "~/Dev/m/cloak.nvim" }
+    { "laytan/cloak.nvim" },
 }
 
 require('cloak').setup({
@@ -369,6 +363,7 @@ lvim.lsp.buffer_mappings.normal_mode = {
         end,
         "Show line diagnostics",
     },
+    ["sw"] = { "<cmd>Telescope grep_string<CR>", "Search string" },
 }
 
 local ui = require("harpoon.ui")
@@ -402,6 +397,7 @@ lvim.builtin.which_key.mappings["x"] = {
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+-- lvim.builtin.which_key.mappings["s"] = { w = "<cmd>Telescope grep_string<CR>", "Search string under cursor" }
 lvim.builtin.which_key.mappings["t"] = {
     name = "Trouble",
     r = { "<cmd>Trouble lsp_references<cr>", "References" },
