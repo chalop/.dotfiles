@@ -48,6 +48,7 @@ alias h-search="history | grep"
 alias clear="echo -n -e \"\e[2J\e[3J\e[1;1H\""
 alias e="exit"
 alias gg="lazygit"
+alias tm="tmux"
 
 src() {
     cd "${PWD/\/src\/*//src/../}"

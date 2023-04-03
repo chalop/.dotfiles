@@ -26,6 +26,7 @@ lvim.plugins = {
         "norcalli/nvim-colorizer.lua",
         config = function()
             require("colorizer").setup({
+                    "astro",
                     "css",
                     "html",
                     "javascript",
@@ -394,6 +395,8 @@ lvim.builtin.which_key.mappings["x"] = {
         , "Make file executable"
     }
 }
+
+-- lvim.lsp.
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
