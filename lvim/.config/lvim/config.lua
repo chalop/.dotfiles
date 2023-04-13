@@ -145,6 +145,18 @@ lvim.plugins = {
     },
     { "mityu/vim-applescript" },
     { "laytan/cloak.nvim" },
+    {
+        "folke/todo-comments.nvim",
+        config = function()
+            require("todo-comments").setup {
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+            }
+        end
+    },
+    { "~/Dev/p/nvim-ts-autotag" }
+    -- { "findango/vim-mdx" }
 }
 
 require('cloak').setup({
@@ -199,7 +211,7 @@ vim.opt.smartindent = true
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.tabstop = 4
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 5
 vim.opt.updatetime = 50
 vim.opt.wrap = false
 vim.opt.termguicolors = true
@@ -240,6 +252,8 @@ lvim.builtin.terminal.active = true
 lvim.builtin.lir.show_hidden_files = true
 
 lvim.builtin.lualine.style = "default"
+
+lvim.builtin.treesitter.autotag.enable = true
 
 -- lvim.builtin.indentlines.options.show_trailing_blankline_indent = true
 -- require("indent_blankline").setup {
@@ -435,4 +449,17 @@ vim.api.nvim_create_autocmd("BufEnter", {
     pattern = { "*.json", "*.jsonc" },
     -- enable wrap mode for json files only
     command = "setlocal wrap",
+})
+
+-- Filetypes
+local mdx_ft_detect = vim.api.nvim_create_augroup("mdx_ft_detect", {})
+vim.api.nvim_create_autocmd({ "BufWinEnter", "BufEnter" }, {
+	group = mdx_ft_detect,
+	callback = function()
+		local filename = vim.api.nvim_buf_get_name(0)
+		local match = string.find(filename, ".mdx")
+		if match then
+			vim.cmd("set filetype=markdown.mdx")
+		end
+	end,
 })

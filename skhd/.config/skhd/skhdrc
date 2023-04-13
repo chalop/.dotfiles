@@ -28,7 +28,8 @@ hyper - o : yabai -m space --rotate 90
 hyper - b : yabai -m space --balance
 
 # reset border color in default mode
-:: default : yabai -m config active_window_border_color 0xFF50FA7B
+# :: default : yabai -m config active_window_border_color 0xFF50FA7B # green
+:: default : yabai -m config active_window_border_color 0xffFFAF00 # orange
 
 # alternate window focus
 alt - h : yabai -m window --focus west

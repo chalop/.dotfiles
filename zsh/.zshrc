@@ -58,6 +58,11 @@ mkcd(){
     mkdir -p $@ && cd ${@:$#}
 } 
 
+cwd(){
+    pwd | pbcopy
+} 
+
+
 # from https://blog.mattclemente.com/2020/06/26/oh-my-zsh-slow-to-load/
 timezsh() {
   shell=${1-$SHELL}
