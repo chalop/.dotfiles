@@ -12,7 +12,7 @@ PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
 # If you are looking for other colors, see the color picker:
 # https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
 
-sketchybar --bar height=20        \
+sketchybar --bar height=30        \
                  blur_radius=100   \
                  position=top     \
                  sticky=off       \
@@ -110,7 +110,12 @@ sketchybar --add item space_separator left                         \
            #               update_freq=120                       \
            # --subscribe battery system_woke power_source_change
 
-sketchybar --add item pomodoro right --set pomodoro update_freq=1 script="$PLUGIN_DIR/raycast-pomodoro.sh"
+sketchybar -m --add item battery right \
+              --set battery update_freq=3 \
+              --set battery script="~/.config/sketchybar/plugins/power.sh" \
+              --set battery icon=
+
+#sketchybar --add item pomodoro right --set pomodoro update_freq=1 script="$PLUGIN_DIR/raycast-pomodoro.sh"
 ##### Finalizing Setup #####
 # The below command is only needed at the end of the initial configuration to
 # force all scripts to run the first time, it should never be run in an item script.
