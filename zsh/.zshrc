@@ -62,7 +62,6 @@ cwd(){
     pwd | pbcopy
 } 
 
-
 # from https://blog.mattclemente.com/2020/06/26/oh-my-zsh-slow-to-load/
 timezsh() {
   shell=${1-$SHELL}
@@ -107,7 +106,12 @@ tprompt(){
         # PROMPT= e$PROMPT | cut -c 36-
     fi
 }
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# to only recommend certain filetypes for sioyek
+compdef '_files -g "*.(pdf|epub)"' sioyek
+
+source ~/.oh-my-zsh/custom/plugins/zsh-vimode-visual/zsh-vimode-visual.zsh
+source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 bindkey -v
 
