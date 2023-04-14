@@ -5,7 +5,7 @@ sudo yabai --load-sa
 
 # bsp or float (default: bsp)
 yabai -m config layout bsp
-yabai -m config external_bar all:20:0
+yabai -m config external_bar all:30:0
 yabai -m config top_padding 0
 yabai -m config bottom_padding 0
 yabai -m config left_padding 0
