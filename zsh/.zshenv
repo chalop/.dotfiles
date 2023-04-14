@@ -11,6 +11,7 @@ path=(
     $path
     $(go env GOPATH)/bin
     /usr/local/opt/qt@5/bin
+    /Users/chalop/.local/bin
     /Users/chalop/Projects/sioyek/build/sioyek.app/Contents/MacOS/
     /Applications/Stats.app/Contents/Resources
 )
