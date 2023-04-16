@@ -155,7 +155,7 @@ lvim.plugins = {
             }
         end
     },
-    { "~/Dev/p/nvim-ts-autotag" }
+    { "windwp/nvim-ts-autotag" }
     -- { "findango/vim-mdx" }
 }
 
