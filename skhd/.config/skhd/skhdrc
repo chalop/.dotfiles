@@ -8,15 +8,11 @@ hyper - return : open -n /Applications/Alacritty.app #open -a Alacritty
 # fullscreen window
 hyper - f : yabai -m window --toggle zoom-fullscreen
 
+# NOTE: decided to use Raycasts 'Maxmize' instead, mapped to hyper - m
 # # maximize on current screen
 # hyper - g : yabai -m space --toggle padding ; \
 # yabai -m space --togel gag ; yabai -m config external_bar off:0:0; \
 # scketchybar --bar hidden=true
-
-# # toggle fullscreen on current screen
-# rcmd - rshift - rctrl - alt - g : yabai -m space --toggle padding ; \
-# yabai -m space --togel gag ; yabai -m config external_bar all:20:0; \
-# scketchybar --bar hidden=false
 
 # toggle float window and center on screen
 hyper - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
