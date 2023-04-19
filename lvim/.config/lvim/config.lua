@@ -37,6 +37,7 @@ lvim.plugins = {
                     "scss",
                     "typescript",
                     "typescriptreact",
+                    "json",
                 },
                 {
                     RGB = true,      -- #RGB hex codes
@@ -357,6 +358,30 @@ formatters.setup {
     },
 }
 
+-- removes warnings related to tailwind directives
+require("lvim.lsp.manager").setup("cssls", {
+    settings = {
+        css = {
+            validate = true,
+            lint = {
+                unknownAtRules = "ignore"
+            }
+        },
+        scss = {
+            validate = true,
+            lint = {
+                unknownAtRules = "ignore"
+            }
+        },
+        less = {
+            validate = true,
+            lint = {
+                unknownAtRules = "ignore"
+            }
+        },
+    },
+})
+
 -- Keybindings
 
 lvim.lsp.buffer_mappings.normal_mode = {
@@ -454,12 +479,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
 -- Filetypes
 local mdx_ft_detect = vim.api.nvim_create_augroup("mdx_ft_detect", {})
 vim.api.nvim_create_autocmd({ "BufWinEnter", "BufEnter" }, {
-	group = mdx_ft_detect,
-	callback = function()
-		local filename = vim.api.nvim_buf_get_name(0)
-		local match = string.find(filename, ".mdx")
-		if match then
-			vim.cmd("set filetype=markdown.mdx")
-		end
-	end,
+    group = mdx_ft_detect,
+    callback = function()
+        local filename = vim.api.nvim_buf_get_name(0)
+        local match = string.find(filename, ".mdx")
+        if match then
+            vim.cmd("set filetype=markdown.mdx")
+        end
+    end,
 })
