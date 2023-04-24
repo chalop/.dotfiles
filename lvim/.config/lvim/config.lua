@@ -236,6 +236,7 @@ vim.opt.list = true
 -- local space_match = vim.fn.matchadd('Conceal', '\v( @<= )|(  @=)', -1, -1, {'conceal' , '·'})
 vim.opt.listchars = { tab = '├─', trail = '·', space = '·', precedes = '←', extends = '→', }
 -- lvim.builtin.autopairs.active = false
+lvim.builtin.autopairs.active = false
 
 
 -- LunarVim Setup
