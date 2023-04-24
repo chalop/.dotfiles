@@ -235,7 +235,6 @@ vim.opt.list = true
 -- end
 -- local space_match = vim.fn.matchadd('Conceal', '\v( @<= )|(  @=)', -1, -1, {'conceal' , '·'})
 vim.opt.listchars = { tab = '├─', trail = '·', space = '·', precedes = '←', extends = '→', }
--- lvim.builtin.autopairs.active = false
 lvim.builtin.autopairs.active = false
 
 
@@ -391,10 +390,8 @@ lvim.lsp.buffer_mappings.normal_mode = {
     ["gd"] = { vim.lsp.buf.definition, "Goto Definition" },
     ["gD"] = { "<CMD>Lspsaga lsp_finder<CR>", "Open LSP Finder" },
     -- ["gD"] = { vim.lsp.buf.declaration, "Goto declaration" },
-    ["gr"] = { vim.lsp.buf.references, "References" },
     ["gR"] = { vim.lsp.buf.references, "References" },
     -- ["gR"] = { vim.lsp.buf.rename, "Rename" },
-    ["gR"] = { "<CMD>Lspsaga rename<CR> ++project", "Rename" },
     ["gr"] = { "<CMD>Lspsaga rename<CR> ++project", "Rename" },
     ["gI"] = { vim.lsp.buf.implementation, "Goto Implementation" },
     ["gs"] = { vim.lsp.buf.signature_help, "show signature help" },
