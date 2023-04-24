@@ -479,6 +479,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
     command = "setlocal wrap",
 })
 
+-- Ex commands
+vim.cmd('command! -nargs=0 W :w') -- I kept typing ":W" on accident, bye bye whichkey
+
 -- Filetypes
 local mdx_ft_detect = vim.api.nvim_create_augroup("mdx_ft_detect", {})
 vim.api.nvim_create_autocmd({ "BufWinEnter", "BufEnter" }, {
