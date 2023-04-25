@@ -156,7 +156,8 @@ lvim.plugins = {
             }
         end
     },
-    { "windwp/nvim-ts-autotag" }
+    { "windwp/nvim-ts-autotag" },
+    { "nvim-telescope/telescope-file-browser.nvim" },
     -- { "findango/vim-mdx" }
 }
 
@@ -432,6 +433,10 @@ lvim.builtin.which_key.mappings["x"] = {
     x = {
         [[<cmd>!chmod +x %<CR>]]
         , "Make file executable"
+    },
+    f = {
+        [[<cmd>lua require 'telescope'.extensions.file_browser.file_browser()<CR>]],
+        "Open telescope file browser"
     }
 }
 
