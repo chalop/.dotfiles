@@ -34,15 +34,15 @@ alt - k : yabai -m window --focus north
 alt - l : yabai -m window --focus east
 
 # move active window to x space (sip disabled only)
-alt + ctrl - 1 : yabai -m window --space 1;
-alt + ctrl - 2 : yabai -m window --space 2;
-alt + ctrl - 3 : yabai -m window --space 3;
-alt + ctrl - 4 : yabai -m window --space 4;
-alt + ctrl - 5 : yabai -m window --space 5;
-alt + ctrl - 6 : yabai -m window --space 6;
-alt + ctrl - 7 : yabai -m window --space 7;
-alt + ctrl - 8 : yabai -m window --space 8;
-alt + ctrl - 9 : yabai -m window --space 9;
+alt + ctrl - 1 : yabai -m window --space 1 && yabai -m space --focus 1;
+alt + ctrl - 2 : yabai -m window --space 2 && yabai -m space --focus 2;
+alt + ctrl - 3 : yabai -m window --space 3 && yabai -m space --focus 3;
+alt + ctrl - 4 : yabai -m window --space 4 && yabai -m space --focus 4;
+alt + ctrl - 5 : yabai -m window --space 5 && yabai -m space --focus 5;
+alt + ctrl - 6 : yabai -m window --space 6 && yabai -m space --focus 6;
+alt + ctrl - 7 : yabai -m window --space 7 && yabai -m space --focus 7;
+alt + ctrl - 8 : yabai -m window --space 8 && yabai -m space --focus 8;
+alt + ctrl - 9 : yabai -m window --space 9 && yabai -m space --focus 9;
 
 # set resize border color
 :: resize @ : yabai -m config active_window_border_color 0xFFBD93F9
