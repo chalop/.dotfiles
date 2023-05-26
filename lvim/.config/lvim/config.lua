@@ -158,6 +158,7 @@ lvim.plugins = {
     },
     { "windwp/nvim-ts-autotag" },
     { "nvim-telescope/telescope-file-browser.nvim" },
+    { "nvim-treesitter/nvim-treesitter-context" }
     -- { "findango/vim-mdx" }
 }
 
@@ -257,6 +258,7 @@ lvim.builtin.lualine.style = "default"
 
 lvim.builtin.treesitter.autotag.enable = true
 
+lvim.builtin.project.exclude_dirs = { "~/Dev/w/*" }
 -- lvim.builtin.indentlines.options.show_trailing_blankline_indent = true
 -- require("indent_blankline").setup {
 --     show_end_of_line = true,
