@@ -8,6 +8,20 @@ hyper - return : open -n /Applications/Alacritty.app #open -a Alacritty
 # fullscreen window
 hyper - f : yabai -m window --toggle zoom-fullscreen
 
+# disable gaps on windows
+hyper - d : 
+yabai -m space --togle padding; \
+yabai -m space --toggle gap; \
+yabai -m config external_bar off:0:0; \
+sketchybar --bar hidden=true; # TODO: check availability to only toggle on main bar
+
+# enable gaps on windows
+hyper - s : 
+yabai -m space --toggle padding; \
+yabai -m space --toggle gap; \
+yabai -m config external_bar all:30:0;\
+sketchybar --bar hidden=false; # TODO: check availability to only toggle on main bar
+
 # NOTE: decided to use Raycasts 'Maxmize' instead, mapped to hyper - m
 # # maximize on current screen
 # hyper - g : yabai -m space --toggle padding ; \
