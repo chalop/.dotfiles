@@ -51,7 +51,7 @@ lvim.plugins = {
         end,
     },
     {
-        "~/Dev/m/freewolf.nvim",
+        dir = "~/Dev/m/freewolf.nvim",
         config = function()
             require("freewolf").setup({
                 transparent_bg = true,
@@ -116,7 +116,7 @@ lvim.plugins = {
     { 'editorconfig/editorconfig-vim' },
     {
         "iamcco/markdown-preview.nvim",
-        run = "cd app && npm install",
+        build = "cd app && npm install",
         ft = "markdown",
         config = function()
             vim.g.mkdp_auto_start = 1
@@ -340,6 +340,7 @@ lvim.builtin.telescope.pickers.git_files = {
 
 lvim.builtin.telescope.pickers.live_grep = {
     layout_strategy = "horizontal",
+    layout_config = { width = 0.80, height = 0.80, prompt_position = "bottom" },
     file_ignore_patterns = { "node_modules", "package%-lock.json" }
 }
 
@@ -400,7 +401,7 @@ lvim.lsp.buffer_mappings.normal_mode = {
     ["gs"] = { vim.lsp.buf.signature_help, "show signature help" },
     ["gl"] = {
         function()
-            local config = lvim.lsp.diagnostics.float
+            local config = vim.diagnostics.float
             config.scope = "line"
             vim.diagnostic.open_float({}, config)
         end,

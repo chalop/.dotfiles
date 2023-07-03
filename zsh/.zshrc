@@ -19,6 +19,8 @@ plugins=(vi-mode zsh-vimode-visual zsh-syntax-highlighting)
 # plugins+=(zsh-nvm)
 source $ZSH/oh-my-zsh.sh
 
+# unsetopt HIST_VERIFY
+
 # User configuration
 # export ANDROID_HOME=$HOME/Library/Android/sdk
 # export PATH=$PATH:$ANDROID_HOME/emulator
@@ -49,6 +51,7 @@ alias clear="echo -n -e \"\e[2J\e[3J\e[1;1H\""
 alias e="exit"
 alias gg="lazygit"
 alias tm="tmux"
+alias sed="gsed"
 
 src() {
     cd "${PWD/\/src\/*//src/../}"
@@ -140,3 +143,6 @@ eval "`fnm env`"
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
