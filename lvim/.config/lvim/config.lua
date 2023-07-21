@@ -158,7 +158,22 @@ lvim.plugins = {
     },
     { "windwp/nvim-ts-autotag" },
     { "nvim-telescope/telescope-file-browser.nvim" },
-    { "nvim-treesitter/nvim-treesitter-context" }
+    { "nvim-treesitter/nvim-treesitter-context" },
+    {
+        "nathom/filetype.nvim",
+        config = function()
+            require("filetype").setup {
+                overrides = {
+                    extensions = {
+                        tf = "terraform",
+                        tfvars = "terraform",
+                        tfstate = "json",
+                    },
+                },
+            }
+        end
+    },
+    { "NoahTheDuke/vim-just" }
     -- { "findango/vim-mdx" }
 }
 
@@ -359,7 +374,9 @@ formatters.setup {
         command = "prettier",
         ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
         filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+
     },
+    { name = "black" },
 }
 
 -- removes warnings related to tailwind directives
@@ -401,9 +418,14 @@ lvim.lsp.buffer_mappings.normal_mode = {
     ["gs"] = { vim.lsp.buf.signature_help, "show signature help" },
     ["gl"] = {
         function()
-            local config = vim.diagnostics.float
-            config.scope = "line"
-            vim.diagnostic.open_float({}, config)
+            local float = vim.diagnostic.config().float
+
+            if float then
+                local config = type(float) == "table" and float or {}
+                config.scope = "line"
+
+                vim.diagnostic.open_float(config)
+            end
         end,
         "Show line diagnostics",
     },
@@ -467,7 +489,10 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
+vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+-- vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.definition() end)
 -- Moves selected line / block of text in visual mode
+
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", "s", ":BrowserSearch<CR>")
@@ -499,3 +524,48 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "BufEnter" }, {
         end
     end,
 })
+
+-- LSP
+-- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright", "jsonls" })
+
+-- local json_opts = {
+--   settings = {
+--     json = {
+--       schemas = vim.list_extend(
+--         {
+--           {
+--             description = "pyright config",
+--             fileMatch = { "pyrightconfig.json" },
+--             name = "pyrightconfig.json",
+--             url =
+--             "https://raw.githubusercontent.com/microsoft/pyright/main/packages/vscode-pyright/schemas/pyrightconfig.schema.json",
+--           },
+--         },
+--         require('schemastore').json.schemas {
+--         }
+--       ),
+--     },
+--   },
+-- }
+
+-- local pyright_opts = {
+--   single_file_support = true,
+--   settings = {
+--     pyright = {
+--       disableLanguageServices = false,
+--       disableOrganizeImports = false
+--     },
+--     python = {
+--       analysis = {
+--         autoImportCompletions = true,
+--         autoSearchPaths = true,
+--         diagnosticMode = "workspace", -- openFilesOnly, workspace
+--         typeCheckingMode = "basic", -- off, basic, strict
+--         useLibraryCodeForTypes = true
+--       }
+--     }
+--   },
+-- }
+
+-- require("lvim.lsp.manager").setup("pyright", pyright_opts)
+-- require("lvim.lsp.manager").setup("jsonls", json_opts)
