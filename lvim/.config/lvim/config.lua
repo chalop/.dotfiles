@@ -173,7 +173,20 @@ lvim.plugins = {
             }
         end
     },
-    { "NoahTheDuke/vim-just" }
+    { "NoahTheDuke/vim-just" },
+    { "mechatroner/rainbow_csv" },
+    {
+        "simrat39/symbols-outline.nvim",
+        config = function()
+            require("symbols-outline").setup()
+        end
+    },
+    {
+        "kwakzalver/duckytype.nvim",
+        config = function()
+            require('duckytype').setup()
+        end
+    }
     -- { "findango/vim-mdx" }
 }
 
@@ -229,7 +242,7 @@ vim.opt.smartindent = true
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.tabstop = 4
-vim.opt.scrolloff = 5
+vim.opt.scrolloff = 1
 vim.opt.updatetime = 50
 vim.opt.wrap = false
 vim.opt.termguicolors = true
@@ -365,7 +378,7 @@ lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
 lvim.builtin.nvimtree.setup.view.number = true
 lvim.builtin.nvimtree.setup.view.relativenumber = true
-lvim.builtin.nvimtree.setup.view.width = 50
+lvim.builtin.nvimtree.setup.view.width = 35
 
 -- Formatting
 local formatters = require "lvim.lsp.null-ls.formatters"
@@ -452,6 +465,28 @@ lvim.builtin.which_key.mappings["w"] = {
     end, "Toggle Zen mode" }
 }
 
+function Lazydocker_toggle()
+    local Terminal = require("toggleterm.terminal").Terminal
+    local lazydocker = Terminal:new {
+        cmd = "lazydocker",
+        hidden = true,
+        direction = "float",
+        float_opts = {
+            border = "none",
+            width = 100000,
+            height = 100000,
+        },
+        on_open = function(_)
+            vim.cmd "startinsert!"
+        end,
+        on_close = function(_) end,
+        count = 99,
+    }
+    lazydocker:toggle()
+end
+
+vim.cmd("command! Lazydocker lua Lazydocker_toggle()")
+
 lvim.builtin.which_key.mappings["x"] = {
     name = "Extra",
     u = { [[<cmd>UndotreeToggle<CR><cmd>UndotreeFocus<CR>]], "Undo tree" },
@@ -462,13 +497,22 @@ lvim.builtin.which_key.mappings["x"] = {
     f = {
         [[<cmd>lua require 'telescope'.extensions.file_browser.file_browser()<CR>]],
         "Open telescope file browser"
+    },
+    d = {
+        [[<cmd>Lazydocker<CR>]],
+        "Lazydocker"
     }
+
 }
 
 -- lvim.lsp.
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+
+lvim.builtin.which_key.mappings["e"] = { function() require('lir.float').toggle() end, "Explorer" }
+lvim.builtin.which_key.mappings["F"] = { [[<CMD>NvimTreeToggle<CR>]], "File Explorer" }
+
 -- lvim.builtin.which_key.mappings["s"] = { w = "<cmd>Telescope grep_string<CR>", "Search string under cursor" }
 lvim.builtin.which_key.mappings["t"] = {
     name = "Trouble",
@@ -489,13 +533,14 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end)
 -- vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.definition() end)
 -- Moves selected line / block of text in visual mode
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "<M-Up>", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "<M-Down>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "s", ":BrowserSearch<CR>")
+vim.keymap.set("v", "f", vim.lsp.buf.format) -- formats on visual selected lines
 
 vim.keymap.set("n", "<C-h>", function() ui.nav_file(1) end)
 vim.keymap.set("n", "<C-t>", function() ui.nav_file(2) end)
@@ -524,6 +569,38 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "BufEnter" }, {
         end
     end,
 })
+
+
+-- from https://www.reddit.com/r/neovim/comments/zlahds/looking_for_a_plugin_that_automatically_generates/
+function QuickLog(opts)
+    if not (opts) then opts = { addLineNumber = false } end
+
+    local varname = wordUnderCursor()
+    local logStatement
+    local ft = bo.filetype
+    local lnStr = ""
+    if opts.addLineNumber then
+        lnStr = "L" .. tostring(lineNo(".")) .. " "
+    end
+
+    if ft == "lua" then
+        logStatement = 'print("' .. lnStr .. varname .. ':", ' .. varname .. ")"
+    elseif ft == "python" then
+        logStatement = 'print("' .. lnStr .. varname .. ': " + ' .. varname .. ")"
+    elseif ft == "javascript" or ft == "typescript" then
+        logStatement = 'console.log("' .. lnStr .. varname .. ': " + ' .. varname .. ");"
+    elseif ft == "zsh" or ft == "bash" or ft == "fish" or ft == "sh" then
+        logStatement = 'echo "' .. lnStr .. varname .. ": $" .. varname .. '"'
+    elseif ft == "applescript" then
+        logStatement = 'log "' .. lnStr .. varname .. ': " & ' .. varname
+    else
+        vim.notify("Quicklog does not support " .. ft .. " yet.", logWarn)
+        return
+    end
+
+    append(".", logStatement)
+    cmd [[normal! j==]] -- move down and indent
+end
 
 -- LSP
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright", "jsonls" })
