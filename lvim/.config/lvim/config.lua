@@ -159,20 +159,6 @@ lvim.plugins = {
     { "windwp/nvim-ts-autotag" },
     { "nvim-telescope/telescope-file-browser.nvim" },
     { "nvim-treesitter/nvim-treesitter-context" },
-    {
-        "nathom/filetype.nvim",
-        config = function()
-            require("filetype").setup {
-                overrides = {
-                    extensions = {
-                        tf = "terraform",
-                        tfvars = "terraform",
-                        tfstate = "json",
-                    },
-                },
-            }
-        end
-    },
     { "NoahTheDuke/vim-just" },
     { "mechatroner/rainbow_csv" },
     {
@@ -569,6 +555,19 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "BufEnter" }, {
         end
     end,
 })
+
+local tfvars_ft_detect = vim.api.nvim_create_augroup("tfvars_ft_detect", {})
+vim.api.nvim_create_autocmd({ "BufWinEnter", "BufEnter" }, {
+    group = tfvars_ft_detect,
+    callback = function()
+        local filename = vim.api.nvim_buf_get_name(0)
+        local match = string.find(filename, ".tfvars")
+        if match then
+            vim.cmd("set filetype=tf")
+        end
+    end,
+})
+
 
 
 -- from https://www.reddit.com/r/neovim/comments/zlahds/looking_for_a_plugin_that_automatically_generates/
