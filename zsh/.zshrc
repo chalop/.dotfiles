@@ -1,10 +1,9 @@
 # Fig pre block. Keep at the top of this file.
 [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
+
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/chalop/.oh-my-zsh"
 export TILE_PATH="$HOME/scripts/tile-manager"
-export NVM_LAZY_LOAD=true
-export NVM_COMPLETION=true
 
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="agnoster"
@@ -22,6 +21,8 @@ plugins=(vi-mode zsh-vimode-visual zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
 # unsetopt HIST_VERIFY
+
+setopt IGNORE_EOF
 
 # User configuration
 # export ANDROID_HOME=$HOME/Library/Android/sdk

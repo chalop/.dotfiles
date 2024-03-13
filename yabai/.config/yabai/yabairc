@@ -6,11 +6,14 @@ sudo yabai --load-sa
 # bsp or float (default: bsp)
 yabai -m config layout bsp
 yabai -m config external_bar all:30:0
-yabai -m config top_padding 3
-yabai -m config bottom_padding 3
-yabai -m config left_padding 3
-yabai -m config right_padding 3
-yabai -m config window_gap 3
+
+YABAI_PADDING=1
+yabai -m config top_padding $YABAI_PADDING
+yabai -m config bottom_padding $YABAI_PADDING
+yabai -m config left_padding $YABAI_PADDING
+yabai -m config right_padding $YABAI_PADDING
+
+yabai -m config window_gap $YABAI_PADDING
 
 # float system preferences. Most of these just disable Yabai from resizing them.
 source $HOME/.config/yabai/yabai-float-apps.sh

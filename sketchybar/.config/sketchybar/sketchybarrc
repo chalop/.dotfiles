@@ -96,7 +96,7 @@ sketchybar --add item space_separator left                         \
                \
                --add item fan right                                \
                --set fan update_freq=3                             \
-               icon= \
+               icon= \
                script="$PLUGIN_DIR/temp.sh"                      \
                                                                           # icon= \
 
