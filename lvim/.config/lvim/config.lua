@@ -1,4 +1,4 @@
--- Packer
+-- Lazy
 lvim.plugins = {
     { "folke/trouble.nvim", cmd = "TroubleToggle" },
     {
@@ -107,8 +107,13 @@ lvim.plugins = {
         config = function()
             require('window-picker').setup({
                 selection_chars = 'HTNSAOEUGCRL"<>PXB',
-                fg_color = '#1F2225',
                 other_win_hl_color = '#FFAF00',
+                hint = "floating-big-letter",
+                picker_config = {
+                    floating_big_letter = {
+                        font = "ansi-shadow"
+                    }
+                }
             })
         end
     },
@@ -172,7 +177,8 @@ lvim.plugins = {
         config = function()
             require('duckytype').setup()
         end
-    }
+    },
+    {"stevearc/dressing.nvim"}
     -- { "findango/vim-mdx" }
 }
 
@@ -266,9 +272,21 @@ lvim.builtin.alpha.mode = "dashboard"
 
 lvim.builtin.terminal.active = true
 
+local actions = require("lir.actions")
 lvim.builtin.lir.show_hidden_files = true
+lvim.builtin.lir.mappings["<C-t>"] = nil
+lvim.builtin.lir.mappings["<Esc>"] = actions.quit
 
 lvim.builtin.lualine.style = "default"
+lvim.builtin.lualine.sections = {
+    lualine_c = {
+        {
+            'filename',
+            file_status = true, -- (readonly or modified status, etc)
+            path = 1            -- 0 = just filename, 1 = relative path, 2 = absolute path
+        }
+    }
+}
 
 lvim.builtin.treesitter.autotag.enable = true
 
@@ -279,7 +297,7 @@ lvim.builtin.project.exclude_dirs = { "~/Dev/w/*" }
 --     space_char_blankline = "-",
 -- }
 -- Leap
-require('leap').add_default_mappings()
+-- require('leap').add_default_mappings()
 -- require('leap').leap { target_windows = { vim.fn.win_getid() } }
 
 -- Bufferline
@@ -309,7 +327,7 @@ lvim.builtin.bufferline.options.custom_filter = custom_filter
 
 -- Treesitter
 vim.opt.foldlevel = 20
-vim.opt.foldmethod = "expr"
+vim.opt.foldmethod = "indent"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 lvim.builtin.treesitter.ensure_installed = {
@@ -339,21 +357,38 @@ lvim.builtin.treesitter.rainbow.enable = false
 
 -- Telescope
 lvim.builtin.telescope.pickers.find_files = {
-    layout_strategy = "horizontal",
+    layout_strategy = "vertical",
     layout_config = { width = 0.80, height = 0.80, prompt_position = "bottom" },
     hidden = true,
+
+    path_display = { "absolute" },
+    wrap_results = true
     -- file_ignore_patterns = "^.git/"
 }
 
 lvim.builtin.telescope.pickers.git_files = {
-    layout_strategy = "horizontal",
+    layout_strategy = "vertical",
     layout_config = { width = 0.80, height = 0.80, prompt_position = "bottom" },
     hidden = true,
+
+    path_display = { "absolute" },
+    wrap_results = true
     -- file_ignore_patterns = "^.git/"
 }
 
+
+lvim.builtin.telescope.pickers.git_status = {
+    layout_strategy = "vertical",
+    layout_config = { width = 0.80, height = 0.80, prompt_position = "bottom" },
+    hidden = true,
+
+    path_display = {"absolute"},
+    wrap_results = true
+}
+
+
 lvim.builtin.telescope.pickers.live_grep = {
-    layout_strategy = "horizontal",
+    layout_strategy = "vertical",
     layout_config = { width = 0.80, height = 0.80, prompt_position = "bottom" },
     file_ignore_patterns = { "node_modules", "package%-lock.json" }
 }
@@ -497,6 +532,7 @@ lvim.builtin.which_key.mappings["x"] = {
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
 lvim.builtin.which_key.mappings["e"] = { function() require('lir.float').toggle() end, "Explorer" }
+lvim.builtin.which_key.mappings["u"] = { [[<CMD>UndotreeToggle<CR><CMD>UndotreeFocus<CR>]], "Undo tree" }
 lvim.builtin.which_key.mappings["F"] = { [[<CMD>NvimTreeToggle<CR>]], "File Explorer" }
 
 -- lvim.builtin.which_key.mappings["s"] = { w = "<cmd>Telescope grep_string<CR>", "Search string under cursor" }
@@ -521,10 +557,11 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end)
 -- vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.definition() end)
--- Moves selected line / block of text in visual mode
 
+-- Moves selected line / block of text in visual mode
 vim.keymap.set("v", "<M-Up>", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", "<M-Down>", ":m '>+1<CR>gv=gv")
+
 vim.keymap.set("v", "s", ":BrowserSearch<CR>")
 vim.keymap.set("v", "f", vim.lsp.buf.format) -- formats on visual selected lines
 
@@ -568,38 +605,14 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "BufEnter" }, {
     end,
 })
 
-
-
--- from https://www.reddit.com/r/neovim/comments/zlahds/looking_for_a_plugin_that_automatically_generates/
-function QuickLog(opts)
-    if not (opts) then opts = { addLineNumber = false } end
-
-    local varname = wordUnderCursor()
-    local logStatement
-    local ft = bo.filetype
-    local lnStr = ""
-    if opts.addLineNumber then
-        lnStr = "L" .. tostring(lineNo(".")) .. " "
+local env_group = vim.api.nvim_create_augroup("__env", { clear = true })
+vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = ".env*",
+    group = env_group,
+    callback = function (args)
+        vim.diagnostic.disable(args.buf)
     end
-
-    if ft == "lua" then
-        logStatement = 'print("' .. lnStr .. varname .. ':", ' .. varname .. ")"
-    elseif ft == "python" then
-        logStatement = 'print("' .. lnStr .. varname .. ': " + ' .. varname .. ")"
-    elseif ft == "javascript" or ft == "typescript" then
-        logStatement = 'console.log("' .. lnStr .. varname .. ': " + ' .. varname .. ");"
-    elseif ft == "zsh" or ft == "bash" or ft == "fish" or ft == "sh" then
-        logStatement = 'echo "' .. lnStr .. varname .. ": $" .. varname .. '"'
-    elseif ft == "applescript" then
-        logStatement = 'log "' .. lnStr .. varname .. ': " & ' .. varname
-    else
-        vim.notify("Quicklog does not support " .. ft .. " yet.", logWarn)
-        return
-    end
-
-    append(".", logStatement)
-    cmd [[normal! j==]] -- move down and indent
-end
+})
 
 -- LSP
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright", "jsonls" })
