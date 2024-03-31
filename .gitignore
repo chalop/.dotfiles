@@ -1,5 +1,6 @@
 yabai-float-apps.sh
 packer_compiled.lua
+tmux/.config/tmux/plugins/*
 
 .DS_Store
 
