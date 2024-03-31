@@ -178,7 +178,16 @@ lvim.plugins = {
             require('duckytype').setup()
         end
     },
-    {"stevearc/dressing.nvim"}
+    { "stevearc/dressing.nvim" },
+    {
+        "christoomey/vim-tmux-navigator",
+        config = function()
+            vim.keymap.set('n', 'C-h', ':TmuxNavigateLeft<CR>')
+            vim.keymap.set('n', 'C-j', ':TmuxNavigateDown<CR>')
+            vim.keymap.set('n', 'C-k', ':TmuxNavigateUp<CR>')
+            vim.keymap.set('n', 'C-l', ':TmuxNavigateRight<CR>')
+        end
+    }
     -- { "findango/vim-mdx" }
 }
 
@@ -382,7 +391,7 @@ lvim.builtin.telescope.pickers.git_status = {
     layout_config = { width = 0.80, height = 0.80, prompt_position = "bottom" },
     hidden = true,
 
-    path_display = {"absolute"},
+    path_display = { "absolute" },
     wrap_results = true
 }
 
@@ -526,7 +535,7 @@ lvim.builtin.which_key.mappings["x"] = {
 
 }
 
--- lvim.lsp.
+-- lvim.builtin.which_key.setup.plugins.registers = true
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
@@ -570,6 +579,12 @@ vim.keymap.set("n", "<C-t>", function() ui.nav_file(2) end)
 vim.keymap.set("n", "<C-n>", function() ui.nav_file(3) end)
 vim.keymap.set("n", "<C-s>", function() ui.nav_file(4) end)
 
+-- Navigate between panes
+vim.keymap.set('n', '<C-h>', ':wincmd h<CR>')
+vim.keymap.set('n', '<C-j>', ':wincmd j<CR>')
+vim.keymap.set('n', '<C-k>', ':wincmd k<CR>')
+vim.keymap.set('n', '<C-l>', ':wincmd l<CR>')
+
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 vim.api.nvim_create_autocmd("BufEnter", {
     pattern = { "*.json", "*.jsonc" },
@@ -609,7 +624,7 @@ local env_group = vim.api.nvim_create_augroup("__env", { clear = true })
 vim.api.nvim_create_autocmd("BufEnter", {
     pattern = ".env*",
     group = env_group,
-    callback = function (args)
+    callback = function(args)
         vim.diagnostic.disable(args.buf)
     end
 })
