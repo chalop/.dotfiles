@@ -194,6 +194,13 @@ lvim.plugins = {
             { "<c-k>",  "<cmd><C-U>TmuxNavigateUp<cr>" },
             { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
         },
+    },
+    {
+        "ruifm/gitlinker.nvim",
+        dependencies = "nvim-lua/plenary.nvim",
+        config = function()
+            require("gitlinker").setup()
+        end
     }
     -- { "findango/vim-mdx" }
 }
@@ -581,16 +588,22 @@ vim.keymap.set("v", "<M-Down>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "s", ":BrowserSearch<CR>")
 vim.keymap.set("v", "f", vim.lsp.buf.format) -- formats on visual selected lines
 
-vim.keymap.set("n", "<C-h>", function() ui.nav_file(1) end)
-vim.keymap.set("n", "<C-t>", function() ui.nav_file(2) end)
-vim.keymap.set("n", "<C-n>", function() ui.nav_file(3) end)
-vim.keymap.set("n", "<C-s>", function() ui.nav_file(4) end)
+-- Used to be <C-htns>, but <C-h> decided to be something greater.
+-- Leaving Fn keys until a better alternative that does not conflict
+vim.keymap.set("n", "<F2>", function() ui.nav_file(1) end)
+vim.keymap.set("n", "<F3>", function() ui.nav_file(2) end)
+vim.keymap.set("n", "<F4>", function() ui.nav_file(3) end)
+vim.keymap.set("n", "<F5>", function() ui.nav_file(4) end)
 
 -- Navigate between panes
 vim.keymap.set('n', '<C-h>', ':wincmd h<CR>')
 vim.keymap.set('n', '<C-j>', ':wincmd j<CR>')
 vim.keymap.set('n', '<C-k>', ':wincmd k<CR>')
 vim.keymap.set('n', '<C-l>', ':wincmd l<CR>')
+
+-- Jump between opened buffers
+lvim.keys.normal_mode["<leader>("] = "<cmd>bprevious<CR>"
+lvim.keys.normal_mode["<leader>)"] = "<cmd>bnext<CR>"
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 vim.api.nvim_create_autocmd("BufEnter", {
