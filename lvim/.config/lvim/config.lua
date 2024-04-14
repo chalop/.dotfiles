@@ -47,6 +47,7 @@ lvim.plugins = {
                     hsl_fn = true,   -- CSS hsl() and hsla() functions
                     css = true,      -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
                     css_fn = true,   -- Enable all CSS *functions*: rgb_fn, hsl_fn
+                    mode = 'background'
                 })
         end,
     },
@@ -189,10 +190,10 @@ lvim.plugins = {
             "TmuxNavigatePrevious",
         },
         keys = {
-            { "<c-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>" },
-            { "<c-j>",  "<cmd><C-U>TmuxNavigateDown<cr>" },
-            { "<c-k>",  "<cmd><C-U>TmuxNavigateUp<cr>" },
-            { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
+            { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+            { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+            { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+            { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
         },
     },
     {
@@ -201,8 +202,56 @@ lvim.plugins = {
         config = function()
             require("gitlinker").setup()
         end
+    },
+    {
+        "folke/noice.nvim",
+        event = "VeryLazy",
+        opts = {
+            -- add any options here
+        },
+        dependencies = {
+            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+            "MunifTanjim/nui.nvim",
+            -- OPTIONAL:
+            --   `nvim-notify` is only needed, if you want to use the notification view.
+            --   If not available, we use `mini` as the fallback
+            "rcarriga/nvim-notify",
+        },
+        config = function()
+            require("noice").setup({
+                lsp = {
+                    -- override markdown rendering so that **cmp** and other plugins user **Treesitter**
+                    override = {
+                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                        ["vim.lsp.util.stylize_markdown"] = true,
+                        ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+                    },
+                    hover = {
+                        enabled = false
+                    },
+                    signature = {
+                        enabled = false
+                    },
+                    progress = {
+                        enabled = false,
+                    },
+                },
+                -- you can enable a preset for easier configuration
+                routes = {
+                    {
+                        filter = {
+                            event = "msg_show",
+                            kind = "search_count",
+                        },
+                        opts = { skip = true },
+                    },
+                },
+            })
+            require("notify").setup({
+                background_colour = "#000000",
+            })
+        end
     }
-    -- { "findango/vim-mdx" }
 }
 
 require('cloak').setup({
@@ -263,7 +312,7 @@ vim.opt.wrap = false
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.api.nvim_clear_autocmds { pattern = { "gitcommit", "markdown" }, group = "_filetype_settings" }
-vim.b.copilot_enable = false
+-- vim.b.copilot_enable = false
 
 
 
@@ -309,6 +358,10 @@ lvim.builtin.lualine.sections = {
             path = 1            -- 0 = just filename, 1 = relative path, 2 = absolute path
         }
     }
+}
+lvim.builtin.lualine.options = {
+    component_separators = { left = "", right = "|" },
+    section_separators = { left = "", right = "" },
 }
 
 lvim.builtin.treesitter.autotag.enable = true
@@ -416,6 +469,12 @@ lvim.builtin.telescope.pickers.live_grep = {
     file_ignore_patterns = { "node_modules", "package%-lock.json" }
 }
 
+lvim.builtin.telescope.pickers.lsp_references = {
+    layout_strategy = "vertical",
+    layout_config = { width = 0.80, height = 0.80, prompt_position = "bottom" },
+    -- file_ignore_patterns = { "node_modules", "package%-lock.json" }
+}
+
 -- NvimTree
 lvim.builtin.nvimtree.setup.view.side = "right"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
@@ -435,6 +494,30 @@ formatters.setup {
     },
     { name = "black" },
 }
+
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+    { command = "eslint", filetypes = { "typescript", "typescriptreact" } }
+}
+
+-- local null_ls = require("null-ls")
+-- null_ls.register({
+--   null_ls.builtins.diagnostics.cspell.with({
+--     diagnostics_postprocess = function(diagnostic)
+--       diagnostic.severity = vim.diagnostic.severity.INFO
+--     end,
+--     filetypes = { "ts", "js", "go" },
+--   }),
+-- })
+local null_ls = require("null-ls")
+null_ls.register({
+    null_ls.builtins.diagnostics.cspell.with({
+        diagnostics_postprocess = function(diagnostic)
+            diagnostic.severity = vim.diagnostic.severity.WARN
+        end,
+        filetypes = { "ts", "typescript", 'js', 'javascript' },
+    }),
+})
 
 -- removes warnings related to tailwind directives
 require("lvim.lsp.manager").setup("cssls", {
@@ -466,11 +549,12 @@ lvim.lsp.buffer_mappings.normal_mode = {
     -- ["K"] = { vim.lsp.buf.hover, "Show hover" },
     ["gh"] = { "<CMD>Lspsaga hover_doc<CR>", "Hover doc" },
     ["gd"] = { vim.lsp.buf.definition, "Goto Definition" },
-    ["gD"] = { "<CMD>Lspsaga lsp_finder<CR>", "Open LSP Finder" },
+    -- ["gD"] = { "<CMD>Lspsaga lsp_finder<CR>", "Open LSP Finder" },
     -- ["gD"] = { vim.lsp.buf.declaration, "Goto declaration" },
-    ["gR"] = { vim.lsp.buf.references, "References" },
+    -- ["gR"] = { vim.lsp.buf.references, "References" },
     -- ["gR"] = { vim.lsp.buf.rename, "Rename" },
-    ["gr"] = { "<CMD>Lspsaga rename<CR> ++project", "Rename" },
+    -- ["gr"] = { "<CMD>Lspsaga rename<CR> ++project", "Rename" },
+    ["gr"] = { "<CMD>Telescope lsp_references<CR>", "References" },
     ["gI"] = { vim.lsp.buf.implementation, "Goto Implementation" },
     ["gs"] = { vim.lsp.buf.signature_help, "show signature help" },
     ["gl"] = {
