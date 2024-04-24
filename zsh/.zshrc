@@ -142,6 +142,8 @@ eval "$(fnm env --use-on-cd)"
 export PATH=/Users/chalop/.fnm:$PATH
 eval "`fnm env`"
 eval "$(pyenv init --path)"
+export NM_GLOBAL="$(npm root -g)"
+
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform

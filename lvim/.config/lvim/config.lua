@@ -187,7 +187,6 @@ lvim.plugins = {
             "TmuxNavigateDown",
             "TmuxNavigateUp",
             "TmuxNavigateRight",
-            "TmuxNavigatePrevious",
         },
         keys = {
             { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
@@ -227,23 +226,22 @@ lvim.plugins = {
                         ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
                     },
                     hover = {
-                        enabled = false
+                        enabled = false,
+                        silent = true
                     },
                     signature = {
                         enabled = false
                     },
-                    progress = {
-                        enabled = false,
-                    },
                 },
-                -- you can enable a preset for easier configuration
                 routes = {
                     {
                         filter = {
-                            event = "msg_show",
-                            kind = "search_count",
+                            event = "notify",
+                            find = "No information available",
                         },
-                        opts = { skip = true },
+                        opts = {
+                            skip = true,
+                        },
                     },
                 },
             })
@@ -251,6 +249,25 @@ lvim.plugins = {
                 background_colour = "#000000",
             })
         end
+    },
+    {
+        'stevearc/oil.nvim',
+        opts = {
+            view_options = {
+                -- Show files and directories that start with "."
+                show_hidden = true,
+            },
+        },
+        -- Optional dependencies
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
+    {
+        "chrishrb/gx.nvim",
+        keys = { { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } } },
+        cmd = { "Browse" },
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = true, -- default settings
+        submodules = false
     }
 }
 
@@ -273,6 +290,7 @@ require('cloak').setup({
     },
 })
 require('lspconfig.ui.windows').default_options.border = 'rounded'
+require("telescope").load_extension("notify")
 
 -- lvim.builtin.cmp.formatting.source_names["copilot"] = "(Copilot)"
 -- table.insert(lvim.builtin.cmp.sources, 1, { name = "copilot" })
@@ -295,7 +313,7 @@ local blink = "blinkwait700-blinkoff200-blinkon125"
 vim.opt.whichwrap = ""
 vim.opt.colorcolumn = "80,120"
 vim.opt.expandtab = true
-vim.opt.guicursor = "n-c-sm:" .. blink .. ",i-ci-ve:ver25-" .. blink .. ",r-cr-o:hor20,v:block"
+vim.opt.guicursor = "i-ci-ve:ver25,r-cr-o:hor20,v:block"
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.nu = true
@@ -306,15 +324,13 @@ vim.opt.smartindent = true
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.tabstop = 4
-vim.opt.scrolloff = 1
+vim.opt.scrolloff = 10
 vim.opt.updatetime = 50
 vim.opt.wrap = false
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.api.nvim_clear_autocmds { pattern = { "gitcommit", "markdown" }, group = "_filetype_settings" }
 -- vim.b.copilot_enable = false
-
-
 
 -- if vim.fn.exists('space_match') then
 --   vim.fn.matchdelete(space_match)
@@ -351,6 +367,7 @@ lvim.builtin.lir.mappings["<Esc>"] = actions.quit
 
 lvim.builtin.lualine.style = "default"
 lvim.builtin.lualine.sections = {
+    lualine_a = { { 'mode', fmt = function(res) return ' ' .. res end } },
     lualine_c = {
         {
             'filename',
@@ -497,7 +514,7 @@ formatters.setup {
 
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
-    { command = "eslint", filetypes = { "typescript", "typescriptreact" } }
+    { command = "eslint", filetypes = { "typescript", "typescriptreact", "vue" } }
 }
 
 -- local null_ls = require("null-ls")
@@ -513,7 +530,7 @@ local null_ls = require("null-ls")
 null_ls.register({
     null_ls.builtins.diagnostics.cspell.with({
         diagnostics_postprocess = function(diagnostic)
-            diagnostic.severity = vim.diagnostic.severity.WARN
+            diagnostic.severity = vim.diagnostic.severity.HINT
         end,
         filetypes = { "ts", "typescript", 'js', 'javascript' },
     }),
@@ -633,12 +650,10 @@ lvim.builtin.which_key.mappings["x"] = {
 
 }
 
--- lvim.builtin.which_key.setup.plugins.registers = true
-
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
-lvim.builtin.which_key.mappings["e"] = { function() require('lir.float').toggle() end, "Explorer" }
+lvim.builtin.which_key.mappings["e"] = { [[<CMD>Oil --float %/..<CR>]], "Explorer" }
 lvim.builtin.which_key.mappings["u"] = { [[<CMD>UndotreeToggle<CR><CMD>UndotreeFocus<CR>]], "Undo tree" }
 lvim.builtin.which_key.mappings["F"] = { [[<CMD>NvimTreeToggle<CR>]], "File Explorer" }
 
@@ -657,6 +672,12 @@ lvim.builtin.which_key.mappings["t"] = {
 
 -- Keymaps
 
+-- Disable arrow keys in Normal mode
+vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
@@ -670,14 +691,13 @@ vim.keymap.set("v", "<M-Up>", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", "<M-Down>", ":m '>+1<CR>gv=gv")
 
 vim.keymap.set("v", "s", ":BrowserSearch<CR>")
-vim.keymap.set("v", "f", vim.lsp.buf.format) -- formats on visual selected lines
+vim.keymap.set("v", "lf", vim.lsp.buf.format) -- formats on visual selected lines
 
--- Used to be <C-htns>, but <C-h> decided to be something greater.
--- Leaving Fn keys until a better alternative that does not conflict
-vim.keymap.set("n", "<F2>", function() ui.nav_file(1) end)
-vim.keymap.set("n", "<F3>", function() ui.nav_file(2) end)
-vim.keymap.set("n", "<F4>", function() ui.nav_file(3) end)
-vim.keymap.set("n", "<F5>", function() ui.nav_file(4) end)
+-- Harpoon nav files
+vim.keymap.set("n", "<S-F7>", function() ui.nav_file(1) end)
+vim.keymap.set("n", "<S-F6>", function() ui.nav_file(2) end)
+vim.keymap.set("n", "<S-F5>", function() ui.nav_file(3) end)
+vim.keymap.set("n", "<S-F4>", function() ui.nav_file(4) end)
 
 -- Navigate between panes
 vim.keymap.set('n', '<C-h>', ':wincmd h<CR>')
@@ -734,6 +754,22 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- LSP
+local lspconfig = require('lspconfig')
+
+lspconfig.tsserver.setup {
+    init_options = {
+        plugins = {
+            {
+                name = '@vue/typescript-plugin',
+                location = vim.env.NM_GLOBAL,
+                languages = { 'vue' },
+            },
+        },
+
+    },
+    filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+}
+
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright", "jsonls" })
 
 -- local json_opts = {
