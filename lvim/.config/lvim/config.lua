@@ -653,7 +653,7 @@ lvim.builtin.which_key.mappings["x"] = {
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
-lvim.builtin.which_key.mappings["e"] = { [[<CMD>Oil --float %/..<CR>]], "Explorer" }
+lvim.builtin.which_key.mappings["e"] = { function() require("oil").toggle_float() end, "Explorer" }
 lvim.builtin.which_key.mappings["u"] = { [[<CMD>UndotreeToggle<CR><CMD>UndotreeFocus<CR>]], "Undo tree" }
 lvim.builtin.which_key.mappings["F"] = { [[<CMD>NvimTreeToggle<CR>]], "File Explorer" }
 
