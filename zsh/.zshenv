@@ -14,4 +14,5 @@ path=(
     /Users/chalop/.local/bin
     /Users/chalop/Projects/sioyek/build/sioyek.app/Contents/MacOS/
     /Applications/Stats.app/Contents/Resources
+    /Applications/FontForge.app/Contents/Resources/opt/local/bin
 )

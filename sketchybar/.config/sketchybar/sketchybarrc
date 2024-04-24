@@ -87,7 +87,7 @@ sketchybar --add item space_separator left                         \
 
            sketchybar --add item clock right                              \
                --set clock   update_freq=1                         \
-               icon=                                \
+               icon=󰥔                                \
                script="$PLUGIN_DIR/clock.sh"         \
                \
                --add item volume right                             \
@@ -113,7 +113,7 @@ sketchybar --add item space_separator left                         \
 sketchybar -m --add item battery right \
               --set battery update_freq=3 \
               --set battery script="~/.config/sketchybar/plugins/power.sh" \
-              --set battery icon=
+              --set battery icon=󰂑
 
 #sketchybar --add item pomodoro right --set pomodoro update_freq=1 script="$PLUGIN_DIR/raycast-pomodoro.sh"
 ##### Finalizing Setup #####
