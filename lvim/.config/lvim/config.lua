@@ -360,11 +360,6 @@ lvim.builtin.alpha.mode = "dashboard"
 
 lvim.builtin.terminal.active = true
 
-local actions = require("lir.actions")
-lvim.builtin.lir.show_hidden_files = true
-lvim.builtin.lir.mappings["<C-t>"] = nil
-lvim.builtin.lir.mappings["<Esc>"] = actions.quit
-
 lvim.builtin.lualine.style = "default"
 lvim.builtin.lualine.sections = {
     lualine_a = { { 'mode', fmt = function(res) return ' ' .. res end } },
@@ -498,7 +493,7 @@ lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
 lvim.builtin.nvimtree.setup.view.number = true
 lvim.builtin.nvimtree.setup.view.relativenumber = true
-lvim.builtin.nvimtree.setup.view.width = 35
+lvim.builtin.nvimtree.setup.view.width = 80
 
 -- Formatting
 local formatters = require "lvim.lsp.null-ls.formatters"
@@ -677,6 +672,8 @@ vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+
+vim.keymap.set('n', '<ESC>', '<cmd>NoiceDismiss<cr>')
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
