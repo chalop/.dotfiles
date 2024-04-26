@@ -257,6 +257,10 @@ lvim.plugins = {
                 -- Show files and directories that start with "."
                 show_hidden = true,
             },
+            float = {
+                -- Padding around the floating window
+                padding = 3,
+            }
         },
         -- Optional dependencies
         dependencies = { "nvim-tree/nvim-web-devicons" },
