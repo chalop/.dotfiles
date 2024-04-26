@@ -1,10 +1,9 @@
--- Lazy
+--#region Lazy
 lvim.plugins = {
     { "folke/trouble.nvim", cmd = "TroubleToggle" },
     {
         "glepnir/lspsaga.nvim",
         branch = "main",
-        -- commit = 'dc446e87fc299475cc80205b0b91bf07180e76e3',
         config = function()
             require('lspsaga').setup({
                 ui = { border = 'rounded', colors = { normal_bg = "NONE", } },
@@ -12,15 +11,7 @@ lvim.plugins = {
             })
         end,
     },
-    {
-        "Mofiqul/dracula.nvim",
-        config = function()
-            require('dracula').setup({ italic_comment = true })
-        end,
-    },
     { "mbbill/undotree" },
-    { 'sigmasd/deno-nvim' },
-    { "ggandor/leap.nvim" },
     { "uarun/vim-protobuf" },
     {
         "norcalli/nvim-colorizer.lua",
@@ -65,42 +56,11 @@ lvim.plugins = {
         end
     },
     { "nvim-treesitter/playground",   event = "BufRead" },
-    -- { "zbirenbaum/copilot.lua",
-    --     event = { "VimEnter" },
-    --     config = function()
-    --         vim.defer_fn(function()
-    --             require("copilot").setup {
-    --                 -- LunarVim users need to specify path to the plugin manager
-    --                 plugin_manager_path = os.getenv "LUNARVIM_RUNTIME_DIR" .. "/site/pack/packer",
-    --             }
-    --         end, 100)
-    --     end,
-    -- },
-    -- {
-    --     "zbirenbaum/copilot-cmp",
-    --     after = { "copilot.lua" },
-    --     config = function()
-    --         require("copilot_cmp").setup()
-    --     end
-    -- },
-    -- { "github/copilot.vim" },
     {
         "ziontee113/color-picker.nvim",
         config = function()
             require("color-picker")
         end,
-    },
-    {
-        "gbrlsnchs/winpick.nvim",
-        config = function()
-            require("winpick").setup({
-                border = "rounded",
-                -- filter = nil, -- doesn't ignore any window by default
-                prompt = "Select a window: ",
-                -- format_label = require('winpick').defaults.format_label, -- formatted as "<label>: <buffer name>"
-                chars = nil,
-            })
-        end
     },
     {
         's1n7ax/nvim-window-picker',
@@ -136,34 +96,44 @@ lvim.plugins = {
                 border = "rounded"
             })
         end,
-        -- run = "yay -S glow"
     },
     { "AndrewRadev/tagalong.vim" },
     { "voldikss/vim-browser-search" },
     {
         "folke/zen-mode.nvim",
         config = function()
-            require("zen-mode").setup {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            }
+            require("zen-mode").setup {}
         end
     },
     { "mityu/vim-applescript" },
-    { "laytan/cloak.nvim" },
+    {
+        "laytan/cloak.nvim",
+        opts = {
+            enabled = true,
+            cloak_character = '*',
+            -- The applied highlight group (colors) on the cloaking, see `:h highlight`.
+            highlight_group = 'Comment',
+            cloak_length = 10,
+            patterns = {
+                {
+                    -- Match any file starting with '.env'.
+                    -- This can be a table to match multiple file patterns.
+                    file_pattern = '.env*',
+                    -- Match an equals sign and any character after it.
+                    -- This can also be a table of patterns to cloak,
+                    -- example: cloak_pattern = { ':.+', '-.+' } for yaml files.
+                    cloak_pattern = '=.+',
+                },
+            },
+        }
+    },
     {
         "folke/todo-comments.nvim",
         config = function()
-            require("todo-comments").setup {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            }
+            require("todo-comments").setup {}
         end
     },
     { "windwp/nvim-ts-autotag" },
-    { "nvim-telescope/telescope-file-browser.nvim" },
     { "nvim-treesitter/nvim-treesitter-context" },
     { "NoahTheDuke/vim-just" },
     { "mechatroner/rainbow_csv" },
@@ -171,12 +141,6 @@ lvim.plugins = {
         "simrat39/symbols-outline.nvim",
         config = function()
             require("symbols-outline").setup()
-        end
-    },
-    {
-        "kwakzalver/duckytype.nvim",
-        config = function()
-            require('duckytype').setup()
         end
     },
     { "stevearc/dressing.nvim" },
@@ -205,15 +169,9 @@ lvim.plugins = {
     {
         "folke/noice.nvim",
         event = "VeryLazy",
-        opts = {
-            -- add any options here
-        },
+        opts = {},
         dependencies = {
-            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
             "MunifTanjim/nui.nvim",
-            -- OPTIONAL:
-            --   `nvim-notify` is only needed, if you want to use the notification view.
-            --   If not available, we use `mini` as the fallback
             "rcarriga/nvim-notify",
         },
         config = function()
@@ -275,44 +233,12 @@ lvim.plugins = {
     }
 }
 
-require('cloak').setup({
-    enabled = true,
-    cloak_character = '*',
-    -- The applied highlight group (colors) on the cloaking, see `:h highlight`.
-    highlight_group = 'Comment',
-    cloak_length = 10,
-    patterns = {
-        {
-            -- Match any file starting with '.env'.
-            -- This can be a table to match multiple file patterns.
-            file_pattern = '.env*',
-            -- Match an equals sign and any character after it.
-            -- This can also be a table of patterns to cloak,
-            -- example: cloak_pattern = { ':.+', '-.+' } for yaml files.
-            cloak_pattern = '=.+',
-        },
-    },
-})
 require('lspconfig.ui.windows').default_options.border = 'rounded'
 require("telescope").load_extension("notify")
+--#endregion
 
--- lvim.builtin.cmp.formatting.source_names["copilot"] = "(Copilot)"
--- table.insert(lvim.builtin.cmp.sources, 1, { name = "copilot" })
-vim.g.copilot_no_tab_map = true
-vim.g.copilot_assume_mapped = true
-vim.g.copilot_tab_fallback = ""
-local cmp = require "cmp"
-lvim.builtin.cmp.mapping["<C-e>"] = function(fallback)
-    cmp.mapping.abort()
-    local copilot_keys = vim.fn["copilot#Accept"]()
-    if copilot_keys ~= "" then
-        vim.api.nvim_feedkeys(copilot_keys, "i", true)
-    else
-        fallback()
-    end
-end
--- Vim Setup
-local blink = "blinkwait700-blinkoff200-blinkon125"
+--#region Vim Setup
+
 -- declares which chars should allow to go to next line, lvim defaults: "<,>,[,],h,l"
 vim.opt.whichwrap = ""
 vim.opt.colorcolumn = "80,120"
@@ -334,37 +260,27 @@ vim.opt.wrap = false
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.api.nvim_clear_autocmds { pattern = { "gitcommit", "markdown" }, group = "_filetype_settings" }
--- vim.b.copilot_enable = false
-
--- if vim.fn.exists('space_match') then
---   vim.fn.matchdelete(space_match)
--- end
--- local space_match = vim.fn.matchadd('Conceal', '\v( @<= )|(  @=)', -1, -1, {'conceal' , '·'})
--- vim.opt.listchars={tab='→ ',trail='·',precedes='←',extends='→',nbsp='·'}
-
-lvim.builtin.indentlines.options.enabled = true
 vim.opt.list = true
--- if vim.fn.exists('space_match') then
---   vim.fn.matchdelete(space_match)
--- end
--- local space_match = vim.fn.matchadd('Conceal', '\v( @<= )|(  @=)', -1, -1, {'conceal' , '·'})
 vim.opt.listchars = { tab = '├─', trail = '·', space = '·', precedes = '←', extends = '→', }
-lvim.builtin.autopairs.active = false
+vim.opt.foldlevel = 20
+vim.opt.foldmethod = "indent"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+--#endregion
 
-
--- LunarVim Setup
+--#region LunarVim Setup
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = false
 lvim.colorscheme = "freewolf"
-
 lvim.leader = "space"
-
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-
 lvim.builtin.terminal.active = true
-
+lvim.builtin.indentlines.options.enabled = true
+lvim.builtin.autopairs.active = false
+lvim.builtin.treesitter.autotag.enable = true
+lvim.builtin.project.exclude_dirs = { "~/Dev/w/*" }
 lvim.builtin.lualine.style = "default"
+
 lvim.builtin.lualine.sections = {
     lualine_a = { { 'mode', fmt = function(res) return ' ' .. res end } },
     lualine_c = {
@@ -379,20 +295,9 @@ lvim.builtin.lualine.options = {
     component_separators = { left = "", right = "|" },
     section_separators = { left = "", right = "" },
 }
+--#endregion
 
-lvim.builtin.treesitter.autotag.enable = true
-
-lvim.builtin.project.exclude_dirs = { "~/Dev/w/*" }
--- lvim.builtin.indentlines.options.show_trailing_blankline_indent = true
--- require("indent_blankline").setup {
---     show_end_of_line = true,
---     space_char_blankline = "-",
--- }
--- Leap
--- require('leap').add_default_mappings()
--- require('leap').leap { target_windows = { vim.fn.win_getid() } }
-
--- Bufferline
+--#region Bufferline
 local function is_ft(b, ft)
     return vim.bo[b].filetype == ft
 end
@@ -416,12 +321,9 @@ local function custom_filter(buf, buf_nums)
 end
 
 lvim.builtin.bufferline.options.custom_filter = custom_filter
+--#endregion
 
--- Treesitter
-vim.opt.foldlevel = 20
-vim.opt.foldmethod = "indent"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-
+--#region Treesitter
 lvim.builtin.treesitter.ensure_installed = {
     "astro",
     "bash",
@@ -446,8 +348,9 @@ lvim.builtin.treesitter.ensure_installed = {
 lvim.builtin.treesitter.ignore_install = { "haskell", 'css' }
 lvim.builtin.treesitter.highlight.enable = true
 lvim.builtin.treesitter.rainbow.enable = false
+--#endregion
 
--- Telescope
+--#region Telescope
 lvim.builtin.telescope.pickers.find_files = {
     layout_strategy = "vertical",
     layout_config = { width = 0.80, height = 0.80, prompt_position = "bottom" },
@@ -455,7 +358,6 @@ lvim.builtin.telescope.pickers.find_files = {
 
     path_display = { "absolute" },
     wrap_results = true
-    -- file_ignore_patterns = "^.git/"
 }
 
 lvim.builtin.telescope.pickers.git_files = {
@@ -465,9 +367,7 @@ lvim.builtin.telescope.pickers.git_files = {
 
     path_display = { "absolute" },
     wrap_results = true
-    -- file_ignore_patterns = "^.git/"
 }
-
 
 lvim.builtin.telescope.pickers.git_status = {
     layout_strategy = "vertical",
@@ -478,7 +378,6 @@ lvim.builtin.telescope.pickers.git_status = {
     wrap_results = true
 }
 
-
 lvim.builtin.telescope.pickers.live_grep = {
     layout_strategy = "vertical",
     layout_config = { width = 0.80, height = 0.80, prompt_position = "bottom" },
@@ -488,10 +387,10 @@ lvim.builtin.telescope.pickers.live_grep = {
 lvim.builtin.telescope.pickers.lsp_references = {
     layout_strategy = "vertical",
     layout_config = { width = 0.80, height = 0.80, prompt_position = "bottom" },
-    -- file_ignore_patterns = { "node_modules", "package%-lock.json" }
 }
+--#endregion
 
--- NvimTree
+--#region NvimTree
 lvim.builtin.nvimtree.setup.view.side = "right"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
@@ -499,7 +398,7 @@ lvim.builtin.nvimtree.setup.view.number = true
 lvim.builtin.nvimtree.setup.view.relativenumber = true
 lvim.builtin.nvimtree.setup.view.width = 80
 
--- Formatting
+--#region Formatting
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
     {
@@ -516,15 +415,6 @@ linters.setup {
     { command = "eslint", filetypes = { "typescript", "typescriptreact", "vue" } }
 }
 
--- local null_ls = require("null-ls")
--- null_ls.register({
---   null_ls.builtins.diagnostics.cspell.with({
---     diagnostics_postprocess = function(diagnostic)
---       diagnostic.severity = vim.diagnostic.severity.INFO
---     end,
---     filetypes = { "ts", "js", "go" },
---   }),
--- })
 local null_ls = require("null-ls")
 null_ls.register({
     null_ls.builtins.diagnostics.cspell.with({
@@ -558,9 +448,9 @@ require("lvim.lsp.manager").setup("cssls", {
         },
     },
 })
+--#endregion
 
--- Keybindings
-
+--#region Keybindings
 lvim.lsp.buffer_mappings.normal_mode = {
     -- ["K"] = { vim.lsp.buf.hover, "Show hover" },
     ["gh"] = { "<CMD>Lspsaga hover_doc<CR>", "Hover doc" },
@@ -650,8 +540,6 @@ lvim.builtin.which_key.mappings["x"] = {
 }
 
 -- Use which-key to add extra bindings with the leader-key prefix
-lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
-
 lvim.builtin.which_key.mappings["e"] = { function() require("oil").toggle_float() end, "Explorer" }
 lvim.builtin.which_key.mappings["u"] = { [[<CMD>UndotreeToggle<CR><CMD>UndotreeFocus<CR>]], "Undo tree" }
 lvim.builtin.which_key.mappings["F"] = { [[<CMD>NvimTreeToggle<CR>]], "File Explorer" }
@@ -667,10 +555,6 @@ lvim.builtin.which_key.mappings["t"] = {
     w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
 }
 
--- lvim.keys.normal_mode["<leader>x"] = "<cmd>!chmod +x %<CR>"
-
--- Keymaps
-
 -- Disable arrow keys in Normal mode
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
@@ -685,7 +569,6 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end)
--- vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.definition() end)
 
 -- Moves selected line / block of text in visual mode
 vim.keymap.set("v", "<M-Up>", ":m '<-2<CR>gv=gv")
@@ -705,12 +588,9 @@ vim.keymap.set('n', '<C-h>', ':wincmd h<CR>')
 vim.keymap.set('n', '<C-j>', ':wincmd j<CR>')
 vim.keymap.set('n', '<C-k>', ':wincmd k<CR>')
 vim.keymap.set('n', '<C-l>', ':wincmd l<CR>')
+--#endregion
 
--- Jump between opened buffers
-lvim.keys.normal_mode["<leader>("] = "<cmd>bprevious<CR>"
-lvim.keys.normal_mode["<leader>)"] = "<cmd>bnext<CR>"
-
--- Autocommands (https://neovim.io/doc/user/autocmd.html)
+--#region Autocommands (https://neovim.io/doc/user/autocmd.html)
 vim.api.nvim_create_autocmd("BufEnter", {
     pattern = { "*.json", "*.jsonc" },
     -- enable wrap mode for json files only
@@ -753,8 +633,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
         vim.diagnostic.disable(args.buf)
     end
 })
+--#endregion
 
--- LSP
+--#region LSP
 local lspconfig = require('lspconfig')
 
 lspconfig.tsserver.setup {
@@ -770,6 +651,7 @@ lspconfig.tsserver.setup {
     },
     filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
 }
+--#endregion
 
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright", "jsonls" })
 
