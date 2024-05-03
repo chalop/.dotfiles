@@ -205,6 +205,7 @@ lvim.plugins = {
             })
             require("notify").setup({
                 background_colour = "#000000",
+                top_down = false
             })
         end
     },
@@ -244,7 +245,7 @@ vim.opt.whichwrap = ""
 vim.opt.colorcolumn = "80,120"
 vim.opt.expandtab = true
 vim.opt.guicursor = "i-ci-ve:ver25,r-cr-o:hor20,v:block"
-vim.opt.hlsearch = false
+vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.nu = true
 vim.opt.relativenumber = true
@@ -561,7 +562,25 @@ vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
-vim.keymap.set('n', '<ESC>', '<cmd>NoiceDismiss<cr>')
+vim.api.nvim_create_autocmd("ModeChanged", {
+  callback = function()
+    if vim.fn.getcmdtype() == "/" or vim.fn.getcmdtype() == "?" then
+      vim.opt.hlsearch = true
+    -- else
+    --   vim.opt.hlsearch = false
+    end
+  end,
+  desc = "Highlighting matched words when searching",
+})
+
+vim.keymap.set('n', '<ESC>', '<cmd>NoiceDismiss<cr><cmd>nohlsearch<cr>')
+vim.api.nvim_create_autocmd(
+    'BufWrite', {
+        callback = function()
+            vim.opt.hlsearch = false
+        end
+    }
+)
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -596,6 +615,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
     -- enable wrap mode for json files only
     command = "setlocal wrap",
 })
+
 
 -- Ex commands
 vim.cmd('command! -nargs=0 W :w') -- I kept typing ":W" on accident, bye bye whichkey
