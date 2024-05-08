@@ -29,6 +29,7 @@ lvim.plugins = {
                     "typescript",
                     "typescriptreact",
                     "json",
+                    "svg"
                 },
                 {
                     RGB = true,      -- #RGB hex codes
@@ -563,14 +564,14 @@ vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 vim.api.nvim_create_autocmd("ModeChanged", {
-  callback = function()
-    if vim.fn.getcmdtype() == "/" or vim.fn.getcmdtype() == "?" then
-      vim.opt.hlsearch = true
-    -- else
-    --   vim.opt.hlsearch = false
-    end
-  end,
-  desc = "Highlighting matched words when searching",
+    callback = function()
+        if vim.fn.getcmdtype() == "/" or vim.fn.getcmdtype() == "?" then
+            vim.opt.hlsearch = true
+            -- else
+            --   vim.opt.hlsearch = false
+        end
+    end,
+    desc = "Highlighting matched words when searching",
 })
 
 vim.keymap.set('n', '<ESC>', '<cmd>NoiceDismiss<cr><cmd>nohlsearch<cr>')
@@ -586,6 +587,11 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
+
+vim.keymap.set("n", "<C-t", "<C-y", {desc = "Scroll-up without moving cursor"})
+
+vim.keymap.set("n", "C-y", "<cmd>cnext<cr>zz", {desc = "Next line in quickfix list"})
+vim.keymap.set("n", "C-p", "<cmd>cprev<cr>zz", {desc = "Previous line in quickfix list"})
 
 vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end)
 
@@ -616,6 +622,13 @@ vim.api.nvim_create_autocmd("BufEnter", {
     command = "setlocal wrap",
 })
 
+-- close quickfix menu after selecting choice (https://stackoverflow.com/a/75039844)
+vim.api.nvim_create_autocmd(
+    "FileType", {
+        pattern = { "qf" },
+        command = [[nnoremap <buffer> <CR> <CR>:cclose<CR>]]
+    }
+)
 
 -- Ex commands
 vim.cmd('command! -nargs=0 W :w') -- I kept typing ":W" on accident, bye bye whichkey
@@ -656,21 +669,36 @@ vim.api.nvim_create_autocmd("BufEnter", {
 --#endregion
 
 --#region LSP
-local lspconfig = require('lspconfig')
+-- lspconfig.tsserver.setup {
+--     init_options = {
+--         plugins = {
+--             {
+--                 name = '@vue/typescript-plugin',
+--                 location = vim.env.NM_GLOBAL,
+--                 languages = { 'vue' },
+--             },
+--         },
 
-lspconfig.tsserver.setup {
-    init_options = {
-        plugins = {
-            {
-                name = '@vue/typescript-plugin',
-                location = vim.env.NM_GLOBAL,
-                languages = { 'vue' },
-            },
-        },
+--     },
+--     filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+-- }
 
-    },
-    filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-}
+-- lspconfig.volar.setup ({
+--   init_options = {
+--     vue = {
+--       hybridMode = false,
+--     },
+--   },
+-- })
+-- lspconfig.volar.setup({})
+
+-- local servers = {
+--     "vue-language-server@1.8.27"
+-- }
+
+-- require("mason-lspconfig").setup({ ensure_installed = servers, automatic_installation = true })
+
+
 --#endregion
 
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright", "jsonls" })
