@@ -40,8 +40,8 @@ hyper - b : yabai -m space --balance
 # reset border color in default mode
 # :: default : yabai -m config active_window_border_color 0xFF50FA7B # green
 # :: default : yabai -m config active_window_border_color 0xffFFAF00 # orange
-:: default : yabai -m config active_window_border_color 0xff8BE9FD  # cyan
-
+# :: default : yabai -m config active_window_border_color 0xff8BE9FD  # cyan
+:: default : borders active_color=0xff8BE9FD inactive_color=0xff494d64 width=5.0
 # alternate window focus
 alt - h : yabai -m window --focus west
 alt - j : yabai -m window --focus south
@@ -61,7 +61,8 @@ alt + ctrl - 9 : yabai -m window --space 9 && yabai -m space --focus 9;
 alt + ctrl - 0 : yabai -m window --space 10 && yabai -m space --focus 10;
 
 # set resize border color
-:: resize @ : yabai -m config active_window_border_color 0xFFBD93F9 # purple
+# :: resize @ : yabai -m config active_window_border_color 0xFFBD93F9 # purple
+:: resize @ : borders active_color=0xffBD93F9 inactive_color=0xff494d64 width=5.0
 
 # toggle resize mode
 default < hyper - r ; resize
@@ -82,7 +83,8 @@ resize < l : yabai -m window --resize right:50:0; \
 
 # set swap mode border color
 
-:: swapper @ : yabai -m config active_window_border_color 0xFF50FA7B # green
+# :: swapper @ : yabai -m config active_window_border_color 0xFF50FA7B # green
+:: swapper @ : borders active_color=0xff50FA7B inactive_color=0xff494d64 width=5.0
 default < hyper - s ; swapper
 swapper < hyper - s ; default
 swapper < return ; default
