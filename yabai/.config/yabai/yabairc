@@ -7,7 +7,7 @@ sudo yabai --load-sa
 yabai -m config layout bsp
 yabai -m config external_bar all:30:0
 
-YABAI_PADDING=1
+YABAI_PADDING=5
 yabai -m config top_padding $YABAI_PADDING
 yabai -m config bottom_padding $YABAI_PADDING
 yabai -m config left_padding $YABAI_PADDING
@@ -37,7 +37,8 @@ yabai -m config window_border_width 1
 # yabai -m config active_window_border_color 0xFF40FF00
 # FFAF00
 # yabai -m config active_window_border_color 0xff50fa7b # green
-yabai -m config active_window_border_color 0xffFFAF00 # orange
+# yabai -m config active_window_border_color 0xffFFAF00 # orange
+yabai -m config active_window_border_color 0xff8BE9FD # cyan
 yabai -m config normal_window_border_color 0x00FFFFFF
 yabai -m config insert_feedback_color        0xffd75f5f
 

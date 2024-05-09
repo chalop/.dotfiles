@@ -39,7 +39,8 @@ hyper - b : yabai -m space --balance
 
 # reset border color in default mode
 # :: default : yabai -m config active_window_border_color 0xFF50FA7B # green
-:: default : yabai -m config active_window_border_color 0xffFFAF00 # orange
+# :: default : yabai -m config active_window_border_color 0xffFFAF00 # orange
+:: default : yabai -m config active_window_border_color 0xff8BE9FD  # cyan
 
 # alternate window focus
 alt - h : yabai -m window --focus west
@@ -60,7 +61,7 @@ alt + ctrl - 9 : yabai -m window --space 9 && yabai -m space --focus 9;
 alt + ctrl - 0 : yabai -m window --space 10 && yabai -m space --focus 10;
 
 # set resize border color
-:: resize @ : yabai -m config active_window_border_color 0xFFBD93F9
+:: resize @ : yabai -m config active_window_border_color 0xFFBD93F9 # purple
 
 # toggle resize mode
 default < hyper - r ; resize
