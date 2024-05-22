@@ -16,7 +16,7 @@ api.map('gt', 'T');
 api.unmap('<ctrl-i>');
 
 // for one-hand dvorak
-api.Hints.setCharacters('htnsgcrlmwvzfdb');
+// api.Hints.setCharacters('htnsgcrlmwvzfdb');
 
 // set theme
 settings.theme = `

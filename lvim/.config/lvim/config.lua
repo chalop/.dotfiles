@@ -220,7 +220,11 @@ lvim.plugins = {
             float = {
                 -- Padding around the floating window
                 padding = 3,
-            }
+            },
+            keymaps = {
+                ["<C-h>"] = false,
+                ["<C-l>"] = false,
+            },
         },
         -- Optional dependencies
         dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -406,7 +410,7 @@ formatters.setup {
     {
         command = "prettier",
         ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-        filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+        filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "vue", "json" },
 
     },
     { name = "black" },
@@ -588,10 +592,10 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("n", "<C-t", "<C-y", {desc = "Scroll-up without moving cursor"})
+vim.keymap.set("n", "<C-t>", "<C-y>", { desc = "Scroll-up without moving cursor" })
 
-vim.keymap.set("n", "C-y", "<cmd>cnext<cr>zz", {desc = "Next line in quickfix list"})
-vim.keymap.set("n", "C-p", "<cmd>cprev<cr>zz", {desc = "Previous line in quickfix list"})
+vim.keymap.set("n", "<C-y>", "<cmd>cnext<cr>zz", { desc = "Next line in quickfix list" })
+vim.keymap.set("n", "<C-p>", "<cmd>cprev<cr>zz", { desc = "Previous line in quickfix list" })
 
 vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end)
 
@@ -609,10 +613,10 @@ vim.keymap.set("n", "<S-F5>", function() ui.nav_file(3) end)
 vim.keymap.set("n", "<S-F4>", function() ui.nav_file(4) end)
 
 -- Navigate between panes
-vim.keymap.set('n', '<C-h>', ':wincmd h<CR>')
-vim.keymap.set('n', '<C-j>', ':wincmd j<CR>')
-vim.keymap.set('n', '<C-k>', ':wincmd k<CR>')
-vim.keymap.set('n', '<C-l>', ':wincmd l<CR>')
+vim.keymap.set('n', '<C-h>', '<C-w>h')
+vim.keymap.set('n', '<C-j>', '<C-w>j')
+vim.keymap.set('n', '<C-k>', '<C-w>k')
+vim.keymap.set('n', '<C-l>', '<C-w>l')
 --#endregion
 
 --#region Autocommands (https://neovim.io/doc/user/autocmd.html)
