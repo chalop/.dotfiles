@@ -1,6 +1,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/chalop/.oh-my-zsh"
 export TILE_PATH="$HOME/scripts/tile-manager"
+export XDG_CONFIG_HOME="$HOME/.config"
 
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="agnoster"
