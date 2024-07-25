@@ -10,6 +10,8 @@ config.window_close_confirmation = 'NeverPrompt'
 
 config.font = wezterm.font("MonoLisa Nerd Font", { weight = "Bold" })
 config.font_size = 14
+-- Removes ligatures, https://wezfurlong.org/wezterm/config/font-shaping.html
+config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 
 config.enable_tab_bar = false
 
