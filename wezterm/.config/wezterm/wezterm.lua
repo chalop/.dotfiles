@@ -33,8 +33,14 @@ config.colors = {
         custom_colors.black, custom_colors.red, custom_colors.green,
         custom_colors.yellow, custom_colors.blue, custom_colors.magenta,
         custom_colors.cyan, custom_colors.white
+    },
+    brights = {
+        custom_colors.black, custom_colors.red, custom_colors.green,
+        custom_colors.yellow, custom_colors.blue, custom_colors.magenta,
+        custom_colors.cyan, custom_colors.white
     }
 }
+
 config.window_background_opacity = 0.8
 config.macos_window_background_blur = 10
 
