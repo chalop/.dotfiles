@@ -220,6 +220,8 @@ lvim.plugins = {
             float = {
                 -- Padding around the floating window
                 padding = 3,
+                max_width = 100,
+                max_height = 0,
             },
             keymaps = {
                 ["<C-h>"] = false,
@@ -236,6 +238,12 @@ lvim.plugins = {
         dependencies = { "nvim-lua/plenary.nvim" },
         config = true, -- default settings
         submodules = false
+    },
+    {
+        "levouh/tint.nvim",
+        config = function()
+            require('tint').setup()
+        end
     }
 }
 
@@ -275,7 +283,7 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 --#region LunarVim Setup
 lvim.log.level = "warn"
-lvim.format_on_save.enabled = false
+lvim.format_on_save.enabled = true
 lvim.colorscheme = "freewolf"
 lvim.leader = "space"
 lvim.builtin.alpha.active = true
@@ -286,6 +294,7 @@ lvim.builtin.autopairs.active = false
 lvim.builtin.treesitter.autotag.enable = true
 lvim.builtin.project.exclude_dirs = { "~/Dev/w/*" }
 lvim.builtin.lualine.style = "default"
+lvim.builtin.illuminate.active = false
 
 lvim.builtin.lualine.sections = {
     lualine_a = { { 'mode', fmt = function(res) return ' ' .. res end } },
