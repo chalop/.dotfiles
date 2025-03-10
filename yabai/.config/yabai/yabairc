@@ -10,8 +10,9 @@ yabai -m config external_bar all:30:0
 YABAI_PADDING=5
 yabai -m config top_padding $YABAI_PADDING
 yabai -m config bottom_padding $YABAI_PADDING
-yabai -m config left_padding $YABAI_PADDING
-yabai -m config right_padding $YABAI_PADDING
+yabai -m config left_padding $(($YABAI_PADDING + 5))
+yabai -m config right_padding $(($YABAI_PADDING + 5))
+
 
 yabai -m config window_gap $YABAI_PADDING
 
@@ -22,7 +23,7 @@ source $HOME/.config/yabai/yabai-float-apps.sh
 # yabai -m rule --add app="^Arc$" title="^$" mouse_follows_focus=off
 
 # focus window after active space changes
-# yabai -m signal --add event=space_changed action="yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id)"
+yabai -m signal --add event=space_changed action="yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id)"
 
 ## Some random global settings
 # yabai -m config focus_follows_mouse          autoraise
@@ -51,6 +52,8 @@ yabai -m config mouse_modifier ctrl
 yabai -m config mouse_action2 resize
 # set modifier + left-click drag to resize window (default: move)
 yabai -m config mouse_action1 move
+# mouse drag indicator - https://github.com/koekeishiya/yabai/issues/2109
+yabai -m config insert_feedback_color 0xaa8BE9FD
 
 borders active_color=0xff8BE9FD inactive_color=0xff494d64 width=5.0 &
 

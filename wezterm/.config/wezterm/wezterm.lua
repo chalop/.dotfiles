@@ -18,7 +18,7 @@ config.enable_tab_bar = false
 config.window_decorations = "RESIZE"
 
 local custom_colors = {
-    black = "#21222c",
+    black = "#647882",
     blue = "#bd93f9",
     cyan = "#8be9fd",
     green = "#50fa7b",
