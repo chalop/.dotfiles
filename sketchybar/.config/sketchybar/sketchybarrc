@@ -25,9 +25,9 @@ sketchybar --bar height=30        \
 # For a full list of all available item properties see:
 # https://felixkratz.github.io/SketchyBar/config/items
 
-sketchybar --default icon.font="MonoLisa Nerd Font:Bold:12.0"  \
+sketchybar --default icon.font="MonoLisa Nerd Font:Bold:12.5"  \
                      icon.color=0xffffffff                 \
-                     label.font="MonoLisa Nerd Font:Bold:12.0" \
+                     label.font="MonoLisa Nerd Font:Bold:12.5" \
                      label.color=0xffffffff                \
                      padding_left=5                        \
                      padding_right=5                       \
@@ -41,7 +41,7 @@ sketchybar --default icon.font="MonoLisa Nerd Font:Bold:12.0"  \
 # https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
 # to indicate active and available mission control spaces
 
-SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
+SPACE_ICONS=("1:" "2:󰖟" "3:󰀻" "4:" "5:" "6" "7" "8" "9" "10")
 
 for i in "${!SPACE_ICONS[@]}"
 do
