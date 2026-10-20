@@ -1,16 +1,15 @@
 return {
     {
-        "hrsh7th/nvim-cmp",
-        opts = function(_, opts)
-            local cmp = require("cmp")
-            opts.window = {
-                completion = cmp.config.window.bordered(),
-                documentation = cmp.config.window.bordered(),
-            }
-        end,
+        "saghen/blink.cmp",
+        opts = {
+            completion = {
+                menu = { border = "rounded" },
+                documentation = { window = { border = "rounded" } },
+            },
+        },
     },
     {
-        "williamboman/mason.nvim",
+        "mason-org/mason.nvim",
         opts = {
             ui = {
                 border = "rounded",
