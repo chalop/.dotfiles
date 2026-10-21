@@ -120,9 +120,13 @@ for def in "${GROUPS_DEF[@]}"; do
 done
 
 # 4. things stow and brew do not cover
-if command -v herdr > /dev/null 2>&1 && ! herdr plugin list 2> /dev/null | grep -q "local.zsh-edit"; then
-    say "Linking the herdr zsh-edit plugin"
-    herdr plugin link "$DOTFILES/herdr/.config/herdr-plugins/zsh-edit"
+if command -v herdr > /dev/null 2>&1; then
+    for plugin in zsh-edit last-workspace; do
+        if ! herdr plugin list 2> /dev/null | grep -q "local.$plugin"; then
+            say "Linking the herdr $plugin plugin"
+            herdr plugin link "$DOTFILES/herdr/.config/herdr-plugins/$plugin"
+        fi
+    done
 fi
 
 if [[ " ${SELECTED[*]} " == *" core "* ]]; then
@@ -137,7 +141,7 @@ say "Done. Manual steps left"
 cat <<'EOF'
   - open a new terminal, zsh plugins and nvim plugins install themselves on first start
   - tmux: start tmux and press prefix + I to install the plugins
-  - herdr:  not on brew, install it from https://herdr.dev, then run ./bootstrap.sh apps to link the zsh-edit plugin
+  - herdr:  not on brew, install it from https://herdr.dev, then run ./bootstrap.sh apps to link its plugins
   - rust:   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   - go:     https://go.dev/dl/ (the shell config looks in /usr/local/go/bin)
   - bun:    curl -fsSL https://bun.sh/install | bash

@@ -1,0 +1,16 @@
+id = "local.last-workspace"
+name = "Last Workspace"
+version = "0.1.0"
+min_herdr_version = "0.9.0"
+description = "Jump back to the previously focused workspace, like tmux prefix+L"
+platforms = ["macos", "linux"]
+
+[[events]]
+on = "workspace.focused"
+command = ["sh", "track.sh"]
+
+[[actions]]
+id = "toggle"
+title = "Toggle last workspace"
+contexts = ["workspace"]
+command = ["sh", "toggle.sh"]
