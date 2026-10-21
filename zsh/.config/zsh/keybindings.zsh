@@ -17,7 +17,7 @@ autoload -Uz edit-command-line
 zle -N edit-command-line
 
 _edit_in_float() {
-    local file=$1 cmd="${EDITOR:-nvim} -c 'set ft=zsh' $1"
+    local file=$1 cmd="${EDITOR:-nvim} -c 'set ft=sh' $1"
     if [[ -n $TMUX ]]; then
         tmux display-popup -E -w 80% -h 60% -b rounded "$cmd"
     elif [[ -n $HERDR_ENV ]]; then
