@@ -107,6 +107,9 @@ for def in "${GROUPS_DEF[@]}"; do
         continue
     fi
     rm -f "$err"
+    # herdr writes logs, sockets and sessions into its config dir, make sure stow links
+    # single files into it instead of linking the whole dir into this repo
+    [[ " $packages " == *" herdr "* ]] && mkdir -p "$HOME/.config/herdr"
     # shellcheck disable=SC2086
     stow -d "$DOTFILES" -t "$HOME" --restow $packages
 
@@ -117,6 +120,11 @@ for def in "${GROUPS_DEF[@]}"; do
 done
 
 # 4. things stow and brew do not cover
+if command -v herdr > /dev/null 2>&1 && ! herdr plugin list 2> /dev/null | grep -q "local.zsh-edit"; then
+    say "Linking the herdr zsh-edit plugin"
+    herdr plugin link "$DOTFILES/herdr/.config/herdr-plugins/zsh-edit"
+fi
+
 if [[ " ${SELECTED[*]} " == *" core "* ]]; then
     TPM="$HOME/.tmux/plugins/tpm"
     if [[ ! -d "$TPM" ]]; then
@@ -129,6 +137,7 @@ say "Done. Manual steps left"
 cat <<'EOF'
   - open a new terminal, zsh plugins and nvim plugins install themselves on first start
   - tmux: start tmux and press prefix + I to install the plugins
+  - herdr:  not on brew, install it from https://herdr.dev, then run ./bootstrap.sh apps to link the zsh-edit plugin
   - rust:   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   - go:     https://go.dev/dl/ (the shell config looks in /usr/local/go/bin)
   - bun:    curl -fsSL https://bun.sh/install | bash
