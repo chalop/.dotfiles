@@ -10,6 +10,16 @@ bindkey '^[[1;3D' backward-word
 bindkey '^[b' backward-word
 bindkey '^[f' forward-word
 
+# up/down walk the history entries starting with what is already typed
+# both escape forms, terminals send ^[OA in application cursor mode (tmux, less, ...)
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[OA' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+bindkey '^[OB' down-line-or-beginning-search
+
 # edit the current command in nvim, ctrl-x ctrl-e
 # floating popup in tmux and herdr (via plugin), zoomed pane on older herdr
 # quit nvim to bring the command back to the prompt (without running it)
