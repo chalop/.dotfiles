@@ -1,36 +1,113 @@
-# Path to your oh-my-zsh installation.
-export ZSH="/Users/chalop/.oh-my-zsh"
 export TILE_PATH="$HOME/scripts/tile-manager"
 export XDG_CONFIG_HOME="$HOME/.config"
+export EDITOR="nvim"
 
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-# ZSH_THEME="agnoster"
-ZSH_THEME="" # empty in favor of `starship` taking over
-# ZSH_HIGHLIGHT_STYLES[comment]='none'
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(vi-mode zsh-vimode-visual zsh-syntax-highlighting)
-# To lazy load NVM, only toggle when needed
-# plugins+=(zsh-nvm)
-source $ZSH/oh-my-zsh.sh
-
-# unsetopt HIST_VERIFY
-
+# ---- options ----
 setopt IGNORE_EOF
+setopt AUTO_CD AUTO_PUSHD PUSHD_IGNORE_DUPS PUSHD_MINUS
+setopt INTERACTIVE_COMMENTS LONG_LIST_JOBS
 
-# User configuration
-# export ANDROID_HOME=$HOME/Library/Android/sdk
-# export PATH=$PATH:$ANDROID_HOME/emulator
-# export PATH=$PATH:$ANDROID_HOME/tools
-# export PATH=$PATH:$ANDROID_HOME/tools/bin
-# export PATH=$PATH:$ANDROID_HOME/platform-tools
-# export MANPATH="/usr/local/man:$MANPATH"
+# ---- history ----
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=10000
+setopt EXTENDED_HISTORY SHARE_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST HIST_IGNORE_DUPS HIST_IGNORE_SPACE HIST_VERIFY
 
-# For a full list of active aliases, run `alias`.
+# ---- completion ----
+autoload -Uz compinit
+# only regenerate the dump once a day, otherwise trust the cache
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+else
+    compinit -C
+fi
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' list-colors ''
+
+# to only recommend certain filetypes for sioyek
+compdef '_files -g "*.(pdf|epub)"' sioyek
+
+# ---- line editing ----
+bindkey -e
+bindkey '^R' history-incremental-search-backward
+bindkey '^[[3~' delete-char
+bindkey '^[[H' beginning-of-line
+bindkey '^[[F' end-of-line
+# opt + arrows / opt + b,f
+bindkey '^[[1;3C' forward-word
+bindkey '^[[1;3D' backward-word
+bindkey '^[b' backward-word
+bindkey '^[f' forward-word
+
+# edit the current command in nvim, ctrl-x ctrl-e
+# floating popup in tmux and herdr (via plugin), zoomed pane on older herdr
+# quit nvim to bring the command back to the prompt (without running it)
+autoload -Uz edit-command-line
+zle -N edit-command-line
+
+_edit_in_float() {
+    local file=$1 cmd="${EDITOR:-nvim} -c 'set ft=zsh' $1"
+    if [[ -n $TMUX ]]; then
+        tmux display-popup -E -w 80% -h 60% -b rounded "$cmd"
+    elif [[ -n $HERDR_ENV ]]; then
+        # popup from the local.zsh-edit plugin (herdr/.config/herdr-plugins), needs herdr >= 0.9
+        if herdr plugin pane open --plugin local.zsh-edit --entrypoint edit --placement popup \
+            --width 80% --height 60% --env ZSH_EDIT_FILE=$file --env EDITOR="${EDITOR:-nvim}" > /dev/null 2>&1; then
+            until [[ -e $file.done ]]; do sleep 0.1; done
+            rm -f $file.done
+            return 0
+        fi
+        # older herdr has no popups, use a temporary zoomed pane instead
+        local pane=$(herdr pane split --current --direction down --focus | grep -oE 'w[0-9]+:p[0-9]+' | tail -1)
+        [[ -n $pane ]] || return 1
+        herdr pane zoom --pane $pane > /dev/null
+        herdr pane run $pane "$cmd; touch $file.done; exit" > /dev/null
+        # the pane may have been closed by hand, so don't wait forever
+        until [[ -e $file.done ]] || ! herdr pane get $pane > /dev/null 2>&1; do sleep 0.1; done
+        herdr pane close $pane > /dev/null 2>&1
+        rm -f $file.done
+    else
+        return 1
+    fi
+}
+
+edit-command-line-float() {
+    local file=$(mktemp "${TMPDIR:-/tmp}/zshcmd.XXXXXX")
+    print -r -- "$BUFFER" > $file
+    if _edit_in_float $file; then
+        BUFFER=$(<$file)
+        CURSOR=$#BUFFER
+        zle redisplay
+    else
+        zle edit-command-line
+    fi
+    rm -f $file
+}
+zle -N edit-command-line-float
+bindkey '^X^E' edit-command-line-float
+
+# ---- plugins ----
+# plain git clones, fetched on first use
+ZSH_PLUGIN_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins"
+zsh_plugin() {
+    local name="${1:t}" dir="$ZSH_PLUGIN_DIR/${1:t}"
+    [[ -d $dir ]] || git clone --depth 1 "https://github.com/$1.git" "$dir" || return
+    source "$dir/${2:-$name.zsh}"
+}
+
+# ---- aliases ----
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -- -='cd -'
+alias md='mkdir -p'
+alias rd=rmdir
+alias l='ls -lah'
+alias ll='ls -lh'
+alias la='ls -lAh'
+
 alias python="python3"
 alias gs="git status"
 alias gc="git add . && git commit -a"
@@ -59,91 +136,34 @@ src() {
 
 mkcd(){
     mkdir -p $@ && cd ${@:$#}
-} 
+}
 
 cwd(){
     pwd | pbcopy
-} 
+}
 
-# from https://blog.mattclemente.com/2020/06/26/oh-my-zsh-slow-to-load/
 timezsh() {
   shell=${1-$SHELL}
   for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
 }
 
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-# echo "\n"
-
-prompt_context(){
-   prompt_segment green black "%(!.%{%F{yellow}%}.)$USER"
-}
-
-prompt_dir() {
-    prompt_segment black white ' %1~ '
-}
-
-prompt_end() {
-  if [[ -n $CURRENT_BG ]]; then
-      print -n "%{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
-  else
-      print -n "%{%k%}"
-  fi
-
-  print -n "%{%f%}"
-  CURRENT_BG='' 
-
-  printf "\n $";
-}
-
-#PROMPT='%{$fg[yellow]%}[%D{%f/%m/%y} %D{%L:%M:%S}] '$PROMPT
-#PROMPT='%{$fg[cyan]%}%D{%f/%m/%y} %D{%T} '$PROMPT
-tprompt(){
-    if test "${PROMPT#*cyan}" != "cyan" 
-    then
-        PROMPT='%{$fg[cyan]%}%D{%d/%m/%y %H:%M:%S} '$PROMPT
-    else 
-        # TODO this doesn't work, the idea is to remove the "time pattern" here
-        PROMPT=$(echo $PROMPT | awk '{print substr ($0, 35)}')
-        # PROMPT= e$PROMPT | cut -c 36-
-    fi
-}
-
-# to only recommend certain filetypes for sioyek
-compdef '_files -g "*.(pdf|epub)"' sioyek
-
-source ~/.oh-my-zsh/custom/plugins/zsh-vimode-visual/zsh-vimode-visual.zsh
-source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-bindkey -v
-
 # export LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
 export LS_COLORS=""
 
-
-# bun completions
-#[ -s "/Users/chalop/.bun/_bun" ] && source "/Users/chalop/.bun/_bun"
-
+# ---- tools ----
 # bun
 export BUN_INSTALL="/Users/chalop/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-
 eval "$(starship init zsh)"
-# # pnpm
-# export PNPM_HOME="/Users/chalop/Library/pnpm"
-# export PATH="$PNPM_HOME:$PATH"
-# # pnpm end
-#
-eval "$(fnm env --use-on-cd)"
 
-# fnm
+eval "$(fnm env --use-on-cd)"
 export PATH=/Users/chalop/.fnm:$PATH
-eval "`fnm env`"
 eval "$(pyenv init --path)"
 export NM_GLOBAL="$(npm root -g)"
 
-
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
+# needs to be sourced last, so it wraps every widget defined above
+zsh_plugin zsh-users/zsh-syntax-highlighting
