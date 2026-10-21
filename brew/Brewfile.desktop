@@ -1,0 +1,5 @@
+# tiling window manager stack
+tap "felixkratz/formulae"
+tap "nikitabobko/tap"
+brew "felixkratz/formulae/borders"
+cask "nikitabobko/tap/aerospace"
