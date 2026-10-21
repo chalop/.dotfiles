@@ -1,5 +1,8 @@
 onboarding = false
 
+[ui]
+copy_on_select = false
+
 [ui.toast]
 delivery = "system"
 
