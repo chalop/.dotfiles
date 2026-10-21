@@ -1,3 +1,4 @@
+# needs: nothing, but must load before tools.zsh (complete/compdef need compinit)
 autoload -Uz compinit
 # only regenerate the dump once a day, otherwise trust the cache
 if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then

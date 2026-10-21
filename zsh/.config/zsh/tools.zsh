@@ -1,3 +1,6 @@
+# needs: completion.zsh (compinit), keybindings.zsh (starship has to come after bindkey)
+(( $+functions[compdef] )) || print -u2 "tools.zsh: completion.zsh has to load first (compinit)"
+
 # bun
 export BUN_INSTALL="/Users/chalop/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"

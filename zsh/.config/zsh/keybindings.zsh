@@ -1,3 +1,4 @@
+# needs: nothing, but must load before plugins.zsh so syntax highlighting wraps the widgets defined here
 bindkey -e
 bindkey '^R' history-incremental-search-backward
 bindkey '^[[3~' delete-char
