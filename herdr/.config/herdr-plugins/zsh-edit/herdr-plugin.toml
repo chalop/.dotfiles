@@ -1,0 +1,12 @@
+id = "local.zsh-edit"
+name = "Zsh Edit"
+version = "0.1.0"
+min_herdr_version = "0.9.0"
+description = "Edit the current zsh command line in a popup"
+platforms = ["macos", "linux"]
+
+[[panes]]
+id = "edit"
+title = "Edit command"
+placement = "popup"
+command = ["sh", "edit.sh"]
