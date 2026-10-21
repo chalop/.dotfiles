@@ -4,3 +4,4 @@ tmux/.config/tmux/plugins/*
 
 .DS_Store
 
+zsh/.config/zsh/local.zsh
