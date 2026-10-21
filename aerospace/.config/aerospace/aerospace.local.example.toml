@@ -1,0 +1,10 @@
+# copy to aerospace.local.toml (untracked) for rules you do not want in a public repo,
+# then run build.sh. find a bundle id with `aerospace list-apps`
+#
+# [[on-window-detected]]
+# if.app-id = 'com.example.app'
+# run = 'layout floating'
+#
+# [[on-window-detected]]
+# if.app-id = 'com.example.other'
+# run = 'move-node-to-workspace 4'

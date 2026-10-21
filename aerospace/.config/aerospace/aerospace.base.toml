@@ -1,0 +1,86 @@
+# ported from the yabai + skhd config, docs over https://nikitabobko.github.io/AeroSpace/guide
+config-version = 2
+
+start-at-login = true
+
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+# window borders, colors match the old yabai setup (needs `borders` from brew)
+after-startup-command = [
+    'exec-and-forget borders active_color=0xff8BE9FD inactive_color=0xff494d64 width=5.0',
+]
+
+# workspaces 1-5 always live on the main monitor, 6-10 on the other one.
+# with a single monitor the fallback keeps everything on main
+persistent-workspaces = ['1', '2', '3', '4', '5', '6']
+
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'main'
+3 = 'main'
+4 = 'main'
+5 = 'main'
+6 = ['secondary', 'main']
+7 = ['secondary', 'main']
+8 = ['secondary', 'main']
+9 = ['secondary', 'main']
+10 = ['secondary', 'main']
+
+[gaps]
+inner.horizontal = 5
+inner.vertical = 5
+outer.left = 10
+outer.right = 10
+outer.top = 5
+outer.bottom = 5
+
+# built-in apps that should float instead of tiling, find a bundle id with `aerospace list-apps`
+# rules for third party apps go in aerospace.local.toml (untracked), see build.sh
+[[on-window-detected]]
+if.app-id = 'com.apple.systempreferences'  # System Settings
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'  # Finder
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Preview'  # Preview
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.TextEdit'  # TextEdit
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.calculator'  # Calculator
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.iCal'  # Calendar
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.FaceTime'  # FaceTime
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.PhotoBooth'  # Photo Booth
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.AppStore'  # App Store
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.DiskUtility'  # Disk Utility
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.SystemProfiler'  # System Information
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.ActivityMonitor'  # Activity Monitor
+run = 'layout floating'

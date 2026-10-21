@@ -5,3 +5,5 @@ tmux/.config/tmux/plugins/*
 .DS_Store
 
 zsh/.config/zsh/local.zsh
+aerospace/.config/aerospace/aerospace.toml
+aerospace/.config/aerospace/aerospace.local.toml
