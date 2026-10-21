@@ -1,0 +1,39 @@
+# ported from the wezterm config, docs over https://ghostty.org/docs/config
+
+confirm-close-surface = false
+
+font-family = "MonoLisa Nerd Font"
+font-style = Bold
+font-size = 14
+# removes ligatures
+font-feature = -calt
+font-feature = -clig
+font-feature = -liga
+
+# no title bar but keeps the native rounded corners (window-decoration = none makes them square)
+macos-titlebar-style = hidden
+
+# wezterm's default colors, ghostty's default background is gray
+background = #000000
+foreground = #b2b2b2
+
+background-opacity = 0.60
+background-blur = 10
+
+# ansi 0-7, the bright 8-15 reuse the same colors
+palette = 0=#647882
+palette = 1=#ff5555
+palette = 2=#50fa7b
+palette = 3=#f1fa8c
+palette = 4=#bd93f9
+palette = 5=#ff79c6
+palette = 6=#8be9fd
+palette = 7=#f8f8f2
+palette = 8=#647882
+palette = 9=#ff5555
+palette = 10=#50fa7b
+palette = 11=#f1fa8c
+palette = 12=#bd93f9
+palette = 13=#ff79c6
+palette = 14=#8be9fd
+palette = 15=#f8f8f2
