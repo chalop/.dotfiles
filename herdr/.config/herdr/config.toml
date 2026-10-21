@@ -7,6 +7,9 @@ delivery = "system"
 name = "dracula"
 auto_switch = false
 
+[theme.custom]
+accent = "#8be9fd"
+
 [[keys.command]]
 key = "prefix+f"
 type = "popup"
